@@ -10,16 +10,13 @@ const Login = () => {
 
 	const handleGoogleLogin = async (event: MouseEvent) => {
 		// Every referrer URL needs to be configured in SUPABASE dashboard in Auth -> Setting -> Redirect URLs
-		let redirectTo = window.location.origin
+		let redirectTo = window.location.origin;
 		if (query.referrer) {
-			redirectTo += `/${query.referrer}`
+			redirectTo += `/${query.referrer}`;
 		}
-		
+
 		try {
-			const { error } = await supabaseClient.auth.signIn(
-				{ provider: "google" },
-				{ redirectTo }
-			);
+			const { error } = await supabaseClient.auth.signIn({ provider: "google" }, { redirectTo });
 			if (error) throw error;
 		} catch (error) {
 			console.log("there is an error with google signIn", error);
@@ -27,11 +24,11 @@ const Login = () => {
 	};
 
 	// TODO: Handle email login
-	const handleEmailLogin = () => { };
+	const handleEmailLogin = () => {};
 	// TODO: Handle email sign up
-	const handleEmailSignUp = () => { };
+	const handleEmailSignUp = () => {};
 
-	const handleEmailEvent = () => { };
+	const handleEmailEvent = () => {};
 
 	// TODO: Handle user authentication errors
 	// TODO: Add Facebook login
@@ -41,7 +38,7 @@ const Login = () => {
 		<AppLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Login</title>
+					<title>HiAir | Login</title>
 				</Head>
 				<main className="container mx-auto mt-12">
 					{/* TODO: Display an overlay loader */}

@@ -76,7 +76,7 @@ function ContactUs() {
         <AppLayout>
             <>
                 <Head>
-                    <title>Breeze Boutique | Contact Us</title>
+                    <title>HiAir | Contact Us</title>
                 </Head>
                 <AppSection>
                     <div className={`w-full bg-gradient-to-r from-violet to-violet-light ${classes.wrapper}`}>

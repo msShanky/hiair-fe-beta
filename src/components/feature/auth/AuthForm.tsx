@@ -19,7 +19,7 @@ const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
 			email: "",
 			name: "",
 			password: "",
-			terms: true,
+			terms: false,
 		},
 
 		validate: {
@@ -52,16 +52,13 @@ const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
 	return (
 		<Paper radius="lg" p="lg" className="w-4/12 mx-auto my-20 shadow-lg" withBorder {...props.paperProps}>
 			<Text size="lg" weight={500}>
-				Welcome to breeze boutique, {type} with
+				Welcome to HiAir, {type} with
 			</Text>
-			<Group grow mb="md" mt="md">
-				<Button onClick={props.handleGoogleLogin} className="bg-pink hover:bg-violet" radius="xl">
+			<div className="flex justify-center my-4">
+				<Button onClick={props.handleGoogleLogin} className="w-40 bg-primary hover:bg-secondary" radius="xl">
 					Google
 				</Button>
-				<Button className="bg-pink hover:bg-violet" radius="xl">
-					Twitter
-				</Button>
-			</Group>
+			</div>
 			<Divider label="Or continue with email" labelPosition="center" my="lg" />
 			<form onSubmit={form.onSubmit(handleFormSubmit)}>
 				<Stack>

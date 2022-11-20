@@ -99,7 +99,7 @@ const Product: NextPage = () => {
 		<AppLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Product</title>
+					<title>HiAir | Product</title>
 				</Head>
 				{isLoading && (
 					<div className="flex justify-center w-full h-56 mt-20">

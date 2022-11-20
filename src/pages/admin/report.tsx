@@ -8,7 +8,7 @@ const AdminReportPage = () => {
 		<AdminLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Admin Report</title>
+					<title>HiAir | Admin Report</title>
 				</Head>
 				<section className="w-full">
 					<div>AdminReportPage</div>

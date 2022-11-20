@@ -23,7 +23,7 @@ const Product: NextPage = () => {
 		<AppLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Products</title>
+					<title>HiAir | Products</title>
 				</Head>
 				{isLoading && (
 					<div className="flex justify-center w-full h-56">

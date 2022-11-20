@@ -8,7 +8,7 @@ const DashboardPage = () => {
 		<AdminLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Admin</title>
+					<title>HiAir | Admin</title>
 				</Head>
 				<main className="container flex flex-row m-10 mx-auto space-x-10">
 					<section className="w-full">

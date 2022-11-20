@@ -45,7 +45,7 @@ const OrderManagementPage = () => {
 		<AdminLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Admin</title>
+					<title>HiAir | Admin</title>
 				</Head>
 				<section className="w-full">
 					<div>OrderManagement</div>

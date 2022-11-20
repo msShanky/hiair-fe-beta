@@ -9,7 +9,7 @@ const ProductManagementPage = () => {
     <AdminLayout>
       <>
         <Head>
-          <title>Breeze Boutique | Admin Product Management</title>
+          <title>HiAir | Admin Product Management</title>
         </Head>
         <section className="w-full">
           <ProductContent />

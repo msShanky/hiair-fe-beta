@@ -9,7 +9,7 @@ const AdminPage = () => {
 		<AdminLayout>
 			<>
 				<Head>
-					<title>Breeze Boutique | Admin</title>
+					<title>HiAir | Admin</title>
 				</Head>
 				<section className="w-full">
 					<Title>Dashboard Content From root</Title>
