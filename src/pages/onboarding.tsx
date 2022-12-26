@@ -1,88 +1,117 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import AppLayout from "../components/layout/AppLayout";
+import { OnBoardingLayout } from "@/components/layout";
 import { useRouter } from "next/router";
-import { useUser } from "@supabase/auth-helpers-react";
 import { Title, Text, TextInput, Select, Divider, NumberInput, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { staticHiringRole } from "copy";
+import { useAppDispatch } from "app/hooks";
+import { updateOnBoarding, updateSessionId } from "@/reducer/userSession";
+import { nanoid } from "@reduxjs/toolkit";
 
 const OnBoardingPage: NextPage = () => {
 	const router = useRouter();
-	const { user, isLoading } = useUser();
+	const dispatch = useAppDispatch();
+	const form = useForm<OnBoardingForm>({
+		validate: {
+			firstName: (value) => {
+				if (!value) {
+					return "Please enter a valid name";
+				}
+				if (value.length < 3) {
+					return "Please enter a valid name";
+				}
+				return null;
+			},
+		},
+	});
+
+	const handleFormSubmit = (values: OnBoardingForm) => {
+		const session_id = nanoid();
+		dispatch(updateOnBoarding(values));
+		dispatch(updateSessionId(session_id));
+		router.push("/candidate-request");
+	};
+
+	// TODO: Onboarding should be an introduction to the whole process
+	// TODO: Move the whole form to user profile page where the user can view that list of sessions and sync with google credentials
 
 	return (
-		<AppLayout>
+		<OnBoardingLayout>
 			<>
 				<Head>
 					<title>HiAir | On Boarding</title>
 				</Head>
-				<section className="container flex flex-col mx-auto mt-20 gap-y-6">
-					{/* <div className="flex flex-col gap-2"> */}
-					<Title className="mb-10 text-2xl text-secondary" order={1}>
+				<form onSubmit={form.onSubmit(handleFormSubmit)} className="container flex flex-col mx-auto mt-20 gap-y-6">
+					<Title className="mb-10 text-2xl dark:text-white text-primaryAlt" order={1}>
 						About you
 					</Title>
-					{/* <Text className="text-base">to curate the best recommendations</Text> */}
-					{/* </div> */}
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-[35%_65%] gap-4">
 						<div className="flex flex-col">
-							<Title className="text-xl text-secondary" order={1}>
+							<Title className="text-xl text-secondaryBlue" order={1}>
 								Personal Info
 							</Title>
-							<Text className="text-base">Provide your personal information</Text>
+							<Text className="text-base dark:text-white text-black">Provide your personal information</Text>
 						</div>
 						<div className="flex flex-row gap-4">
-							<Select
-								placeholder="Gender"
-								className="w-1/4"
-								data={[
-									{ value: "male", label: "Male" },
-									{ value: "female", label: "Female" },
-									{ value: "other", label: "Other" },
-								]}
+							{/* <Select placeholder="Gender" {...form.getInputProps("gender")} className="w-1/4" data={staticGender} /> */}
+							<TextInput
+								{...form.getInputProps("firstName")}
+								withAsterisk
+								className="w-full"
+								placeholder="First Name"
 							/>
-							<TextInput className="w-full" placeholder="First Name" />
-							<TextInput className="w-full" placeholder="Second Name" />
+							<TextInput {...form.getInputProps("lastName")} className="w-full" placeholder="Second Name" />
 						</div>
 					</div>
 					<Divider />
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-[35%_65%] gap-4">
 						<div className="flex flex-col">
-							<Title className="text-xl text-secondary" order={1}>
+							<Title className="text-xl text-secondaryBlue" order={1}>
 								Organization Info
 							</Title>
-							<Text className="text-base">Provide your organization information</Text>
+							<Text className="text-base dark:text-white text-black">Provide your organization information</Text>
 						</div>
 						<div className="flex flex-col gap-4">
-							<TextInput className="w-full" label="Name Of Organization" placeholder="Hiair" />
+							<TextInput
+								{...form.getInputProps("organization")}
+								className="w-full"
+								label="Name Of Organization"
+								placeholder="Hiair"
+							/>
 							<Select
+								{...form.getInputProps("role")}
 								placeholder="Please select a role"
 								label="Role"
-								data={[
-									{ value: "recruiter", label: "Recruiter" },
-									{ value: "hiring_manager", label: "Hiring Manager" },
-									{ value: "project_manager", label: "Project Manager" },
-									{ value: "cxo", label: "CXO" },
-								]}
+								data={staticHiringRole}
 							/>
-							<NumberInput label="Expected No Of Hiring Per Month" className="w-full" placeholder="10" />
+							<NumberInput
+								{...form.getInputProps("expected_hiring_count")}
+								label="Expected No Of Hiring Per Month"
+								className="w-full"
+								placeholder="10"
+							/>
 						</div>
 					</div>
 					<div className="flex self-end gap-10 mt-24">
 						<Button
 							onClick={() => router.push("/candidate-request")}
-							className="w-32 text-white bg-secondary hover:bg-secondary hover:bg-opacity-30"
+							className="w-32 text-white bg-secondaryBlue hover:bg-secondary hover:bg-opacity-30"
+							type="reset"
 						>
 							skip
 						</Button>
 						<Button
-							onClick={() => router.push("/candidate-request")}
+							disabled={!form.isValid()}
 							className="w-32 text-white bg-primary hover:bg-primary hover:bg-opacity-30"
+							type="submit"
 						>
 							Next
 						</Button>
 					</div>
-				</section>
+				</form>
 			</>
-		</AppLayout>
+		</OnBoardingLayout>
 	);
 };
 

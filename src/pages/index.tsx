@@ -7,14 +7,10 @@ import { useEffect, useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";
 import { getFragmentParams } from "@/lib/get-fragment-params";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-import { Title } from "@mantine/core";
+import { Image, Text, Title, Anchor } from "@mantine/core";
+import siteCopy from "copy/en";
 
-const features = [
-	"Custom build your own candidate database",
-	"Request specific candidate ranking",
-	"Personalised Hiring experience",
-	"Soft blocking ideal candidate",
-];
+const { features, offerings } = siteCopy;
 
 const Home: NextPage = () => {
 	const router = useRouter();
@@ -68,7 +64,7 @@ const Home: NextPage = () => {
 		<AppLayout>
 			<>
 				<Head>
-					<title>HiAir | Home</title>
+					<title>Hiair | Home</title>
 				</Head>
 				{/* TODO: Replace this loader with something decent with animations */}
 				{(isLoading || isWaitingForSignIn) && (
@@ -78,19 +74,66 @@ const Home: NextPage = () => {
 					<>
 						<HomeBanner />
 						<section className="container mx-auto mt-20">
-							<Title className="mb-12 font-sans text-4xl text-center text-primary">How could Hiair help you !!!</Title>
-							<div className="flex flex-row gap-8">
-								{features.map((item, index) => {
+							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+								Our Feature Pipelines
+							</Title>
+							<div className="flex flex-row flex-wrap gap-8 justify-around">
+								{offerings.map((item, index) => {
 									return (
 										<div
-											className="flex items-center justify-center w-1/4 h-40 text-white bg-secondary"
+											className="flex flex-col gap-y-4 items-center justify-center w-1/4 h-80 p-4 dark:text-white text-black dark:bg-secondaryYellow bg-primaryAlt rounded-md text-center"
 											key={`FEATURE_${(index + 45) * 45}`}
 										>
-											{item}
+											<div className="w-28 h-28 rounded-full bg-white flex justify-center items-center">
+												<Image alt="screening icon" width={64} src={`/images/home/${item.icon}.png`} />
+											</div>
+											<Title order={3} className="font-serif font-bold text-white text-xl">
+												{item.label}
+											</Title>
+											<Text className="text-base text-shadeBlack">{item.summary}</Text>
 										</div>
 									);
 								})}
 							</div>
+						</section>
+						<section className="container mx-auto mt-20">
+							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+								How can Hiair help you ?
+							</Title>
+							<div className="flex flex-row flex-wrap gap-8 justify-around">
+								{features.map((item, index) => {
+									return (
+										<div
+											className="grid grid-cols-[200px_minmax(500px,_1fr)] gap-x-2 items-center justify-between w-8/12 h-36 p-4 dark:text-white text-black dark:bg-secondaryBlue bg-secondaryYellow rounded-md text-center"
+											key={`FEATURE_${(index + 45) * 45}`}
+										>
+											<div className="w-28 h-28 rounded-full bg-white/60 flex justify-center items-center mx-auto">
+												<Image alt="screening icon" width={64} src={`/images/home/${item.icon}.png`} />
+											</div>
+											<div className="flex flex-col justify-start items-start gap-y-2">
+												<Title order={3} className="font-serif font-bold text-black text-xl">
+													{item.label}
+												</Title>
+												<Text className="text-base text-shadeBlack">{item.summary}</Text>
+											</div>
+										</div>
+									);
+								})}
+							</div>
+						</section>
+						<section className="container mx-auto mt-20">
+							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+								We are backed by
+							</Title>
+							<Anchor href="https://vittbi.com/meity.php" target="_blank">
+								<Image
+									width="100%"
+									src="/images/meity.jpg"
+									classNames={{ image: "mx-auto" }}
+									className="hover:cursor-pointer"
+									alt="vit funding"
+								></Image>
+							</Anchor>
 						</section>
 					</>
 				)}
