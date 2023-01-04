@@ -22,31 +22,20 @@ const defaultOptions = {
 
 export const CandidateTuning = (props: CandidateTuningProps) => {
 	const { handleFormSubmit, initialFormValues } = props;
-	const form = useForm<CandidateTuningForm>({
-		initialValues: initialFormValues,
-		// initialValues: {
-		// 	domain: 50,
-		// 	experience: 50,
-		// 	industry: 50,
-		// 	location: 50,
-		// 	notice_period: 50,
-		// 	salary: 50,
-		// 	skills: 50,
-		// },
-	});
+	const form = useForm<CandidateTuningForm>({ initialValues: initialFormValues });
 
 	const handlePercentileChange = (value: number, key: string) => {
 		form.setFieldValue(key, value);
 	};
 
 	return (
-		<form onSubmit={form.onSubmit(handleFormSubmit)} className="container mx-auto flex flex-col">
+		<form onSubmit={form.onSubmit(handleFormSubmit)} className="container flex flex-col mx-auto">
 			<main className="flex mt-12">
 				<aside>
 					<Lottie options={defaultOptions} height={500} width={600} />
 				</aside>
 				<article className="w-6/12">
-					<Title order={1} className="text-primaryAlt font-thin text-4xl mb-12">
+					<Title order={1} className="mb-12 text-4xl font-thin text-primaryAlt">
 						What would be your preference for the below, when selecting a candidate!
 					</Title>
 					<div className="flex flex-col gap-y-9">

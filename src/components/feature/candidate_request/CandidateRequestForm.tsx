@@ -31,15 +31,15 @@ export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 		// },
 		validateInputOnBlur: true,
 		validate: {
-			role: (value: string) => {
-				if (!value) {
-					return "Please enter a valid role";
-				}
-				if (value.length < 5) {
-					return "Role name must be at least 5 characters";
-				}
-				return null;
-			},
+			// role: (value: string) => {
+			// 	if (!value) {
+			// 		return "Please enter a valid role";
+			// 	}
+			// 	if (value.length < 5) {
+			// 		return "Role name must be at least 5 characters";
+			// 	}
+			// 	return null;
+			// },
 		},
 	});
 
@@ -53,7 +53,7 @@ export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 					<Title className="text-xl text-secondaryBlue" order={1}>
 						Hiring Info
 					</Title>
-					<Text className="text-base dark:text-white text-black">Provide your hiring parameters</Text>
+					<Text className="text-base text-black dark:text-white">Provide your hiring parameters</Text>
 				</div>
 				<div className="flex flex-col gap-4">
 					<TextInput
@@ -135,9 +135,9 @@ export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 						label="Salary Range"
 					>
 						{form.values.salary_range && (
-							<div className="flex gap-6 mt-4 items-center">
-								<Text className="dark:text-white text-black"> Min: {form.values.salary_range[0]} Lacks</Text>
-								<Text className="dark:text-white text-black"> Max: {form.values.salary_range[1]} Lacks</Text>
+							<div className="flex items-center gap-6 mt-4">
+								<Text className="text-black dark:text-white"> Min: {form.values.salary_range[0]} Lacks</Text>
+								<Text className="text-black dark:text-white"> Max: {form.values.salary_range[1]} Lacks</Text>
 							</div>
 						)}
 						<RangeSlider

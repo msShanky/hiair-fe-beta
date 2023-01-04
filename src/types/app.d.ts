@@ -114,3 +114,5 @@ type RazorPaySuccess = {
 	razorpay_payment_id: string;
 	razorpay_signature: string;
 };
+
+type CandidateSelection = "selected" | "rejected";

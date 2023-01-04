@@ -2,6 +2,7 @@ import { model, models, Schema } from "mongoose";
 
 const MODEL_NAME = "user_session";
 
+// TODO: Track the timestamp on when this session was created
 const UserSessionSchema = new Schema({
 	session_id: String,
 	user_id: String,

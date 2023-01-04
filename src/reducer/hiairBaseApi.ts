@@ -17,10 +17,19 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
-		getMatchingCandidate: builder.mutation<CandidateLocationResponse, void>({
-			query: () => `candidate-skills`,
+		getMatchingCandidate: builder.mutation<CandidateResponse, CandidateRequestCreationPostBody>({
+			query: (postBody) => ({
+				url: "candidates",
+				method: "POST",
+				body: postBody,
+			}),
 		}),
 	}),
 });
 
-export const { useGetCandidateLocationQuery, useGetCandidateSkillsQuery, useStoreUserSessionMutation } = hiairBaseApi;
+export const {
+	useGetCandidateLocationQuery,
+	useGetCandidateSkillsQuery,
+	useStoreUserSessionMutation,
+	useGetMatchingCandidateMutation,
+} = hiairBaseApi;

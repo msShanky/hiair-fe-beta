@@ -10,7 +10,7 @@ const OnBoardingLayout: FunctionComponent<OnBoardingLayoutProps> = ({ children }
 	return (
 		<>
 			<AppHeader />
-			<main className="mb-20">{children}</main>
+			<main className="mb-20 overflow-hidden">{children}</main>
 		</>
 	);
 };

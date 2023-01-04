@@ -1,14 +1,15 @@
 import "../styles/globals.css";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ColorScheme, ColorSchemeProvider, MantineProvider, MantineTheme } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import type { AppProps } from "next/app";
-import { PersistGate } from "redux-persist/integration/react";
-import { persistor, store } from "../app/store";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { persistor, store } from "../app/store";
 import { Provider } from "react-redux";
 import { UserProvider } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useLocalStorage } from "@mantine/hooks";
+import { store } from "app/store";
 
 const hiairTheme: Partial<MantineTheme> = {
 	fontFamily: "Raleway, sans-serif",
@@ -41,7 +42,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 		<>
 			<UserProvider supabaseClient={supabaseClient}>
 				<Provider store={store}>
-					<PersistGate loading={null} persistor={persistor}>
+					{/* <PersistGate loading={null} persistor={persistor}> */}
 						<ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
 							<MantineProvider withGlobalStyles withNormalizeCSS theme={hiairTheme}>
 								<NotificationsProvider position="bottom-right">
@@ -49,7 +50,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 								</NotificationsProvider>
 							</MantineProvider>
 						</ColorSchemeProvider>
-					</PersistGate>
+					{/* </PersistGate> */}
 				</Provider>
 			</UserProvider>
 		</>

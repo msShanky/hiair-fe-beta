@@ -51,7 +51,7 @@ const OnBoardingPage: NextPage = () => {
 							<Title className="text-xl text-secondaryBlue" order={1}>
 								Personal Info
 							</Title>
-							<Text className="text-base dark:text-white text-black">Provide your personal information</Text>
+							<Text className="text-base text-black dark:text-white">Provide your personal information</Text>
 						</div>
 						<div className="flex flex-row gap-4">
 							{/* <Select placeholder="Gender" {...form.getInputProps("gender")} className="w-1/4" data={staticGender} /> */}
@@ -70,7 +70,7 @@ const OnBoardingPage: NextPage = () => {
 							<Title className="text-xl text-secondaryBlue" order={1}>
 								Organization Info
 							</Title>
-							<Text className="text-base dark:text-white text-black">Provide your organization information</Text>
+							<Text className="text-base text-black dark:text-white">Provide your organization information</Text>
 						</div>
 						<div className="flex flex-col gap-4">
 							<TextInput
