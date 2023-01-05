@@ -7,15 +7,13 @@ export default class _Document extends Document {
 	static getInitialProps = getInitialProps;
 
 	render() {
-		const pageProps = this.props?.__NEXT_DATA__?.props?.pageProps;
-
 		return (
 			<Html>
 				<Head>
 					<link rel="preconnect" href="https://fonts.googleapis.com" />
 					<link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
 					<link
-						href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;900&display=swap"
+						href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@200;300;400;600;700&display=swap"
 						rel="stylesheet"
 					/>
 					<link
@@ -23,7 +21,7 @@ export default class _Document extends Document {
 						rel="stylesheet"
 					/>
 				</Head>
-				<body className={pageProps.isDark ? "dark-mode" : "light-mode"}>
+				<body>
 					<Main />
 					<NextScript />
 				</body>

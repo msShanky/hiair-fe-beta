@@ -5,7 +5,6 @@
 html,
 body {
 	@apply p-0 m-0 font-sans;
-	@apply scrollbar-thin scrollbar-track-slate-200 scrollbar-thumb-primary
 }
 /*
 	padding: 0;
@@ -22,5 +21,4 @@ a {
 * {
 	box-sizing: border-box;
 }
-
 

@@ -1,5 +1,6 @@
 import React, { FunctionComponent, ReactElement } from "react";
-import { AppHeader, AppFooter } from "@/components/common";
+import AppHeader from "../common/AppHeader";
+import AppFooter from "../common/AppFooter";
 
 type AppLayoutProps = {
 	children: ReactElement;

@@ -18,6 +18,7 @@ const getCartTotalPrice = (products: Array<CartProduct>) => {
 		const productTotalPrice = quantity * productPrice;
 		totalValue = productTotalPrice + totalValue;
 	});
+	console.log(" TOTAL VALUE TO BE PAID IS ===> ", totalValue);
 	return totalValue;
 };
 
