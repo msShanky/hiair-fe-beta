@@ -3,8 +3,12 @@ import { IconThumbUp, IconThumbDown } from "@tabler/icons";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { OnBoardingLayout } from "@/components/layout";
-import { useStoreUserSessionMutation, useGetMatchingCandidateMutation } from "@/reducer/hiairBaseApi";
-import { useAppSelector } from "app/hooks";
+import {
+	useStoreUserSessionMutation,
+	useGetMatchingCandidateMutation,
+	useStoreUserFeedbackMutation,
+} from "@/reducer/hiairBaseApi";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
 import {
 	CandidateListCard,
@@ -15,18 +19,24 @@ import {
 } from "@/components/feature";
 import { Text, Title } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
+import { initiateUserRecommendation, trackCandidateSelection } from "@/reducer/userCandidateFeedback";
 
 const sidePrompt = { hidden: { opacity: 0, x: -1000 }, initial: { opacity: 1, x: 0 } };
 const sidePromptRight = { hidden: { opacity: 0, x: 1000 }, initial: { opacity: 1, x: 0 } };
 
+const SESSION_COMPLETION_THRESHOLD = 5;
+
 const CandidateRecommendationPage: NextPage = () => {
 	const router = useRouter();
+	const dispatch = useAppDispatch();
 	const userSession = useAppSelector((state) => state.userSession);
+	const userFeedback = useAppSelector((state) => state.userCandidateFeedback);
 	const [activeIndex, setActiveIndex] = useState(0);
 
 	const [isDragged, setDraggedState] = useState(false);
 	const [shouldOpenSideOverlay, setSideOverlayState] = useState(false);
-	const [shouldDisplayRatingOverlay, setRatingOverlayState] = useState(true);
+	const [shouldDisplayRatingOverlay, setRatingOverlayState] = useState(false);
+	const [selectedCandidate, setSelectedCandidate] = useState<CandidateSelection | null>(null);
 	const [activeCandidate, setActiveCandidate] = useState<Candidate | null>(null);
 
 	const dataFetchedRef = useRef(false);
@@ -36,47 +46,95 @@ const CandidateRecommendationPage: NextPage = () => {
 		selectFromResult: (values) => values,
 	});
 
+	const [postUserFeedback, userFeedbackResponse] = useStoreUserFeedbackMutation({
+		fixedCacheKey: "user-feedback",
+		selectFromResult: (values) => values,
+	});
+
 	const [getMatchingCandidates, { data: candidatesResponse }] = useGetMatchingCandidateMutation({
 		fixedCacheKey: "candidates-matching",
 		selectFromResult: (values) => values,
 	});
 
-	const { candidateRequest } = userSession;
+	const { candidateRequest, sessionId, userId } = userSession;
+	const { sessionId: feedbackSessionId, userId: feedbackUserId, candidateFeedback } = userFeedback;
+	const { isLoading, isSuccess } = userFeedbackResponse;
 
+	const availableCandidates = candidatesResponse?.result_count ?? 0;
+
+	const sessionEndThreshold =
+		availableCandidates !== 0 && availableCandidates < SESSION_COMPLETION_THRESHOLD
+			? availableCandidates
+			: SESSION_COMPLETION_THRESHOLD;
+
+	// Use effect to fetch the candidate recommendation on load
 	useEffect(() => {
 		if (dataFetchedRef.current) return;
-		if (userSessionResponse.isUninitialized && userSession.session_id !== "") {
+		if (userSessionResponse.isUninitialized && userSession.sessionId !== "") {
 			postUserSession(userSession);
-			getMatchingCandidates({ session_id: userSession.session_id, ...userSession.candidateRequest });
+			getMatchingCandidates({ sessionId: userSession.sessionId, ...userSession.candidateRequest });
 			dataFetchedRef.current = true;
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
+	// Use effect to handle user routing to onboarding page if there is no sessionId available
 	useEffect(() => {
-		if (!userSession.session_id) {
+		if (!userSession.sessionId) {
 			router.push("/onboarding");
 		}
 	}, [userSession, router]);
 
+	// Use effect to set the active candidate when the data is available from the api
 	useEffect(() => {
-		if (candidatesResponse?.data) {
-			setActiveCandidate(candidatesResponse?.data[activeIndex]);
+		if (candidatesResponse?.data && activeIndex < candidatesResponse?.result_count) {
+			const _activeCandidate = candidatesResponse?.data[activeIndex];
+			setActiveCandidate(_activeCandidate);
 		}
 	}, [candidatesResponse, activeCandidate, activeIndex]);
 
-	const handleCandidateSelection = (state: CandidateSelection, candidate: Candidate) => {
-		setRatingOverlayState(true);
-		if (state == "selected") {
-			console.log("this candidate is selected", candidate);
-		} else if (state == "rejected") {
-			console.log("this candidate is rejected", candidate);
+	// Function to handle the candidate selection for both selection and rejection opens the overlay for rating
+	const handleCandidateSelection = (isSelected: boolean) => {
+		if (!activeCandidate) return;
+
+		if (!feedbackSessionId || !feedbackUserId) {
+			dispatch(initiateUserRecommendation({ sessionId, userId }));
 		}
-		setActiveIndex(activeIndex + 1);
+
+		setSelectedCandidate({ candidateId: activeCandidate.user_id, candidateSelection: isSelected });
+
+		if (candidatesResponse?.result_count && activeIndex < candidatesResponse?.result_count) {
+			setActiveIndex(activeIndex + 1);
+		}
+
+		setTimeout(() => {
+			setRatingOverlayState(true);
+		}, 250);
 	};
 
-	const handleCandidateClick = () => {
-		setSideOverlayState(true);
+	const handleRatingsSubmit = (values: CandidateRatingForm) => {
+		if (!selectedCandidate) return;
+
+		const { candidateId, candidateSelection } = selectedCandidate;
+
+		// FIXME: There is an error when tracking the candidateId all the candidate have the same id
+		const updatedCandidateSelection: CandidateSelection = {
+			candidateId,
+			candidateSelection,
+			candidateRating: values,
+		};
+		dispatch(trackCandidateSelection(updatedCandidateSelection));
+		setRatingOverlayState(false);
+
+		setTimeout(() => {
+			setSelectedCandidate(null);
+		}, 200);
+	};
+
+	const completeSession = () => {
+		postUserFeedback(userFeedback).then(() => {
+			router.push("/session-complete");
+		});
 	};
 
 	return (
@@ -86,7 +144,7 @@ const CandidateRecommendationPage: NextPage = () => {
 					<title>HiAir | Candidate Recommendation</title>
 				</Head>
 				<section className="container grid grid-cols-[40%_60%] mx-auto p-2">
-					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin ">
+					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin relative">
 						<Title className="text-2xl text-primary dark:text-secondaryYellow">Candidate Request</Title>
 						<div className="flex flex-row flex-wrap mt-4 gap-y-8 gap-x-20">
 							{Object.keys(candidateRequest).map((candidateKey) => {
@@ -99,6 +157,18 @@ const CandidateRecommendationPage: NextPage = () => {
 								);
 							})}
 						</div>
+						{candidateFeedback.length >= sessionEndThreshold && (
+							<div className="flex justify-end w-full mt-10">
+								<motion.button
+									initial={{ opacity: 0, x: 100 }}
+									animate={{ opacity: 1, x: 0 }}
+									className="px-8 py-2 text-black rounded-md bg-secondaryYellow"
+									onClick={() => completeSession()}
+								>
+									Complete Session
+								</motion.button>
+							</div>
+						)}
 					</aside>
 					<section className="relative">
 						<motion.div
@@ -117,8 +187,8 @@ const CandidateRecommendationPage: NextPage = () => {
 										key={`candidate_card_${activeCandidate._id}`}
 										handleDragState={(value) => setDraggedState(value)}
 										candidate={activeCandidate}
-										handleCandidateSelection={(state) => handleCandidateSelection(state, activeCandidate)}
-										handleCandidateClick={handleCandidateClick}
+										handleCandidateSelection={(state) => handleCandidateSelection(state)}
+										handleCandidateClick={() => setSideOverlayState(true)}
 									/>
 								)}
 							</AnimatePresence>
@@ -130,6 +200,13 @@ const CandidateRecommendationPage: NextPage = () => {
 							<Text className="text-center">
 								Please drag the card to right for rejecting the candidate and left for selection
 							</Text>
+							{candidateFeedback.length < sessionEndThreshold && (
+								<div className="flex justify-center">
+									<Text className="px-4 py-2 text-center text-black rounded-md bg-secondaryYellow">
+										Please complete more that {sessionEndThreshold} profiles to complete session
+									</Text>
+								</div>
+							)}
 						</div>
 						<motion.div
 							variants={sidePromptRight}
@@ -147,6 +224,7 @@ const CandidateRecommendationPage: NextPage = () => {
 						isOpen={shouldDisplayRatingOverlay}
 						onClose={() => setRatingOverlayState(false)}
 						candidate={activeCandidate}
+						handleRatingsSubmit={handleRatingsSubmit}
 					/>
 				)}
 				{activeCandidate && (

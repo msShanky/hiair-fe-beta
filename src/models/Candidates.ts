@@ -1,7 +1,6 @@
 import { model, models, Schema } from "mongoose";
 
-
-const MODEL_NAME = "hiair_candidate" 
+const MODEL_NAME = "hiair_candidate";
 
 const HiairCandidateSchema = new Schema({
 	first_name: String,

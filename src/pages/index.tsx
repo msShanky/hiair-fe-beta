@@ -74,20 +74,20 @@ const Home: NextPage = () => {
 					<>
 						<HomeBanner />
 						<section className="container mx-auto mt-20">
-							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+							<Title className="mb-12 font-serif text-4xl text-center text-black dark:text-white">
 								Our Feature Pipelines
 							</Title>
-							<div className="flex flex-row flex-wrap gap-8 justify-around">
+							<div className="flex flex-row flex-wrap justify-around gap-8">
 								{offerings.map((item, index) => {
 									return (
 										<div
-											className="flex flex-col gap-y-4 items-center justify-center w-1/4 h-80 p-4 dark:text-white text-black dark:bg-secondaryYellow bg-primaryAlt rounded-md text-center"
+											className="flex flex-col items-center justify-center w-1/4 p-4 text-center text-black rounded-md gap-y-4 h-80 dark:text-white dark:bg-secondaryYellow bg-primaryAlt"
 											key={`FEATURE_${(index + 45) * 45}`}
 										>
-											<div className="w-28 h-28 rounded-full bg-white flex justify-center items-center">
+											<div className="flex items-center justify-center bg-white rounded-full w-28 h-28">
 												<Image alt="screening icon" width={64} src={`/images/home/${item.icon}.png`} />
 											</div>
-											<Title order={3} className="font-serif font-bold text-white text-xl">
+											<Title order={3} className="font-serif text-xl font-bold text-white">
 												{item.label}
 											</Title>
 											<Text className="text-base text-shadeBlack">{item.summary}</Text>
@@ -97,21 +97,21 @@ const Home: NextPage = () => {
 							</div>
 						</section>
 						<section className="container mx-auto mt-20">
-							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+							<Title className="mb-12 font-serif text-4xl text-center text-black dark:text-white">
 								How can Hiair help you ?
 							</Title>
-							<div className="flex flex-row flex-wrap gap-8 justify-around">
+							<div className="flex flex-row flex-wrap justify-around gap-8">
 								{features.map((item, index) => {
 									return (
 										<div
 											className="grid grid-cols-[200px_minmax(500px,_1fr)] gap-x-2 items-center justify-between w-8/12 h-36 p-4 dark:text-white text-black dark:bg-secondaryBlue bg-secondaryYellow rounded-md text-center"
 											key={`FEATURE_${(index + 45) * 45}`}
 										>
-											<div className="w-28 h-28 rounded-full bg-white/60 flex justify-center items-center mx-auto">
+											<div className="flex items-center justify-center mx-auto rounded-full w-28 h-28 bg-white/60">
 												<Image alt="screening icon" width={64} src={`/images/home/${item.icon}.png`} />
 											</div>
-											<div className="flex flex-col justify-start items-start gap-y-2">
-												<Title order={3} className="font-serif font-bold text-black text-xl">
+											<div className="flex flex-col items-start justify-start gap-y-2">
+												<Title order={3} className="font-serif text-xl font-bold text-black">
 													{item.label}
 												</Title>
 												<Text className="text-base text-shadeBlack">{item.summary}</Text>
@@ -122,7 +122,7 @@ const Home: NextPage = () => {
 							</div>
 						</section>
 						<section className="container mx-auto mt-20">
-							<Title className="mb-12 font-serif text-4xl text-center dark:text-white text-black">
+							<Title className="mb-12 font-serif text-4xl text-center text-black dark:text-white">
 								We are backed by
 							</Title>
 							<Anchor href="https://vittbi.com/meity.php" target="_blank">

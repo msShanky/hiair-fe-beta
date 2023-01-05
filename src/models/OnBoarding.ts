@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const OnBoardingSchema = new mongoose.Schema({
-	session_id: String,
+	sessionId: String,
 	firstName: String,
 	lastName: String,
 	organization: String,

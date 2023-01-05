@@ -10,9 +10,16 @@ export const hiairBaseApi = createApi({
 		getCandidateSkills: builder.query<CandidateLocationResponse, void>({
 			query: () => `candidate-skills`,
 		}),
-		storeUserSession: builder.mutation<CandidateLocationResponse, UserSessionStateType>({
+		storeUserSession: builder.mutation<UserSessionCreateResponse, UserSessionStateType>({
 			query: (postBody) => ({
 				url: "user-session",
+				method: "POST",
+				body: postBody,
+			}),
+		}),
+		storeUserFeedback: builder.mutation<UserFeedbackCreateResponse, UserCandidateFeedbackStateType>({
+			query: (postBody) => ({
+				url: "user-feedback",
 				method: "POST",
 				body: postBody,
 			}),
@@ -31,5 +38,6 @@ export const {
 	useGetCandidateLocationQuery,
 	useGetCandidateSkillsQuery,
 	useStoreUserSessionMutation,
+	useStoreUserFeedbackMutation,
 	useGetMatchingCandidateMutation,
 } = hiairBaseApi;

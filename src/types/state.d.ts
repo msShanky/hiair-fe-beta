@@ -1,7 +1,17 @@
 type UserSessionStateType = {
-	session_id: string;
-	user_id: string;
+	sessionId: string;
+	userId: string;
 	onBoardingInfo: OnBoardingForm;
 	candidateRequest: CandidateRequestForm;
 	candidateSelectionTuning: CandidateTuningForm;
+};
+
+type CandidateRecommendation = {
+	candidate_id: string;
+};
+
+type UserCandidateFeedbackStateType = {
+	sessionId: string;
+	userId: string;
+	candidateFeedback: Array<CandidateSelection>;
 };

@@ -6,24 +6,24 @@ import { motion, useMotionValue, useAnimationControls } from "framer-motion";
 type CandidateListCardProps = {
 	candidate: Candidate;
 	handleDragState: (state: boolean) => void;
-	handleCandidateSelection: (state: CandidateSelection) => void;
+	handleCandidateSelection: (state: boolean) => void;
 	handleCandidateClick: () => void;
 };
 
 export const CandidateListCard = (props: CandidateListCardProps) => {
 	const { candidate, handleDragState, handleCandidateSelection, handleCandidateClick } = props;
 	const motionValueX = useMotionValue(0);
-	const [selection, setSelection] = useState<CandidateSelection | null>(null);
+	const [selection, setSelection] = useState<boolean | null>(null);
 
 	const handleCardDrop = (event: PointerEvent) => {
 		if (event.clientX < 1000) {
-			setSelection("selected");
-			handleCandidateSelection("selected");
+			setSelection(true);
+			handleCandidateSelection(true);
 		}
 
 		if (event.clientX > 1500) {
-			setSelection("rejected");
-			handleCandidateSelection("rejected");
+			setSelection(false);
+			handleCandidateSelection(false);
 		}
 		handleDragState(false);
 	};
@@ -36,7 +36,7 @@ export const CandidateListCard = (props: CandidateListCardProps) => {
 			style={{ x: motionValueX }}
 			initial={{ opacity: 0, y: 100 }}
 			animate={{ opacity: 1, y: 0 }}
-			exit={selection === "selected" ? "exitSuccess" : "exitReject"}
+			exit={selection ? "exitSuccess" : "exitReject"}
 			drag
 			dragElastic={1}
 			onDragStart={() => handleDragState(true)}

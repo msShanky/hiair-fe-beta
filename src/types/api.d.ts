@@ -29,6 +29,10 @@ type Candidate = {
 	total_experience: number;
 	notice_period: number;
 	current_ctc: number;
+	user_id: string;
 };
 
 type CandidateResponse = ApiResponse<Array<Candidate>>;
+
+
+type UserFeedbackCreateResponse = ApiResponse<UserCandidateFeedbackStateType>

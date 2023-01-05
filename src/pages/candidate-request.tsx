@@ -14,15 +14,14 @@ const CandidateRequestPage: NextPage = () => {
 	const [showTuning, setShowTuning] = useState<boolean>(false);
 
 	const handleCandidateRequestCreation = (values: CandidateRequestForm) => {
-		// TODO: IF the session id is null then create a new session_id
+		// TODO: IF the session id is null then create a new session id
 		dispatch(updateCandidateRequest(values));
 		setShowTuning(true);
 	};
 
-	 const handleCandidateTuning = async (values: CandidateTuningForm) => {
-		// TODO: IF the session id is null then create a new session_id
+	const handleCandidateTuning = async (values: CandidateTuningForm) => {
+		// TODO: IF the session id is null then create a new session id
 		await dispatch(updateCandidateTuning(values));
-		console.log("userSession ===> ", { ...userSession,  });
 		router.push("/candidate-recommendation");
 	};
 

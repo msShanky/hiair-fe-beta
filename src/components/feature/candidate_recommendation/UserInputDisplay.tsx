@@ -41,7 +41,7 @@ export const UserInputDisplay = (props: UserInputDisplayProps) => {
 			<Title className="text-base font-normal text-primary" order={3}>
 				{upperFirst(candidateKey.split("_").join(" "))}
 			</Title>
-			<div className="flex gap-4">
+			<div className="flex flex-wrap gap-4">
 				{isArray ? (
 					fieldValues.map((value, index) => {
 						const uniqueValue = `${value}_${(index + 5) * 44}`;
@@ -53,7 +53,7 @@ export const UserInputDisplay = (props: UserInputDisplayProps) => {
 					})
 				) : (
 					<Text className="text-lg">
-						{fieldValues} {getFormattedSuffix(candidateKey)}
+						{!fieldValues ? "NA" : fieldValues} {getFormattedSuffix(candidateKey)}
 					</Text>
 				)}
 			</div>

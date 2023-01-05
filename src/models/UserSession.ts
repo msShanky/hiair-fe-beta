@@ -4,8 +4,8 @@ const MODEL_NAME = "user_session";
 
 // TODO: Track the timestamp on when this session was created
 const UserSessionSchema = new Schema({
-	session_id: String,
-	user_id: String,
+	sessionId: String,
+	userId: String,
 	onBoardingInfo: {
 		gender: String,
 		first_name: String,
@@ -39,5 +39,5 @@ const UserSessionSchema = new Schema({
 
 // export default mongoose.models.HiairCandidate || mongoose.model("hiair_candidate", HiairCandidate);
 
-const HiairCandidateModel = models[MODEL_NAME] || model(MODEL_NAME, UserSessionSchema);
-export default HiairCandidateModel;
+const UserSessionModel = models[MODEL_NAME] || model(MODEL_NAME, UserSessionSchema);
+export default UserSessionModel;

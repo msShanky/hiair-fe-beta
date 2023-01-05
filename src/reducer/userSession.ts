@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
 const initialState: UserSessionStateType = {
-	session_id: "",
-	user_id: "aaaa",
+	sessionId: "",
+	userId: "",
 	onBoardingInfo: {
 		firstName: "",
 		role: "",
@@ -39,31 +39,38 @@ export const userSlice = createSlice({
 	initialState,
 	reducers: {
 		updateOnBoarding: (state, { payload }: PayloadAction<OnBoardingForm>) => {
-			if (state.session_id === "") {
-				state.session_id = nanoid();
-			}
+			// if (state.sessionId === "" || state.) {
+			// 	state.sessionId = nanoid();
+			// 	state.
+			// }
 			state.onBoardingInfo = payload;
 		},
-		updateSessionId: (state, { payload }: PayloadAction<string>) => {
-			state.session_id = payload;
+		createUserSession: (state, { payload }: PayloadAction<{ sessionId: string; userId: string }>) => {
+			state.sessionId = payload.sessionId;
+			state.userId = payload.userId;
 		},
 		updateCandidateRequest: (state, { payload }: PayloadAction<CandidateRequestForm>) => {
-			if (state.session_id === "") {
-				state.session_id = nanoid();
+			if (state.sessionId === "") {
+				state.sessionId = nanoid();
 			}
 			state.candidateRequest = payload;
 		},
 		updateCandidateTuning: (state, { payload }: PayloadAction<CandidateTuningForm>) => {
-			if (state.session_id === "") {
-				state.session_id = nanoid();
+			if (state.sessionId === "") {
+				state.sessionId = nanoid();
 			}
 			state.candidateSelectionTuning = payload;
+		},
+		resetUserSession: (state) => {
+			state = initialState;
+			return state;
 		},
 	},
 });
 
 const { actions, reducer } = userSlice;
 
-export const { updateOnBoarding, updateSessionId, updateCandidateRequest, updateCandidateTuning } = actions;
+export const { updateOnBoarding, createUserSession, updateCandidateRequest, updateCandidateTuning, resetUserSession } =
+	actions;
 
 export default reducer;

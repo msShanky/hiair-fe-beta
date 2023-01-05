@@ -17,19 +17,19 @@ const HomeBanner = () => {
 	};
 
 	return (
-		<section className="w-full bg-violet-light min-h-[764px] flex items-center">
+		<section className="w-full bg-violet-light min-h-[850px] flex items-center">
 			<div className="container flex flex-row items-center mx-auto space-x-10">
 				<div className="w-3/6 space-y-8">
-					<Title className="font-sans font-light text-6xl leading-snug dark:text-white text-black">
+					<Title className="font-sans text-6xl font-light leading-snug text-black dark:text-white">
 						Welcome To The New Age <br />
-						<Mark className="bg-transparent underline underline-offset-8 text-8xl decoration-secondaryYellow dark:text-white text-black font-bold">
+						<Mark className="font-bold text-black underline bg-transparent underline-offset-8 text-8xl decoration-secondaryYellow dark:text-white">
 							Hiairing!
 						</Mark>
 					</Title>
 					<Text className="text-white">Harness the power of AI & Machine learning in recruitment</Text>
 					<Button
 						onClick={() => router.push("/onboarding")}
-						className="text-white bg-primaryAlt hover:bg-secondaryBlue w-40"
+						className="w-40 text-white bg-primaryAlt hover:bg-secondaryBlue"
 					>
 						Try Now!
 					</Button>

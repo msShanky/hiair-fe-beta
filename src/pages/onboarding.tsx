@@ -5,14 +5,19 @@ import { useRouter } from "next/router";
 import { Title, Text, TextInput, Select, Divider, NumberInput, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { staticHiringRole } from "copy";
-import { useAppDispatch } from "app/hooks";
-import { updateOnBoarding, updateSessionId } from "@/reducer/userSession";
+import { useAppDispatch, useAppSelector } from "app/hooks";
+import { updateOnBoarding, createUserSession } from "@/reducer/userSession";
 import { nanoid } from "@reduxjs/toolkit";
+
+import { v4 as uuid4 } from "uuid";
 
 const OnBoardingPage: NextPage = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const userSession = useAppSelector((state) => state.userSession);
+
 	const form = useForm<OnBoardingForm>({
+		initialValues: userSession.onBoardingInfo,
 		validate: {
 			firstName: (value) => {
 				if (!value) {
@@ -27,9 +32,10 @@ const OnBoardingPage: NextPage = () => {
 	});
 
 	const handleFormSubmit = (values: OnBoardingForm) => {
-		const session_id = nanoid();
+		const sessionId = nanoid();
+		const userId = uuid4();
 		dispatch(updateOnBoarding(values));
-		dispatch(updateSessionId(session_id));
+		dispatch(createUserSession({ sessionId, userId }));
 		router.push("/candidate-request");
 	};
 
@@ -54,7 +60,6 @@ const OnBoardingPage: NextPage = () => {
 							<Text className="text-base text-black dark:text-white">Provide your personal information</Text>
 						</div>
 						<div className="flex flex-row gap-4">
-							{/* <Select placeholder="Gender" {...form.getInputProps("gender")} className="w-1/4" data={staticGender} /> */}
 							<TextInput
 								{...form.getInputProps("firstName")}
 								withAsterisk
