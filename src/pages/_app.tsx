@@ -37,6 +37,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 			document.body.classList.remove("bg-shadeBlack");
 		}
 	});
+	
 
 	return (
 		<>
