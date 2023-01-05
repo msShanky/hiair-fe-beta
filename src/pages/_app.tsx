@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { ColorScheme, ColorSchemeProvider, MantineProvider, MantineTheme } from "@mantine/core";
 import { NotificationsProvider } from "@mantine/notifications";
 import type { AppProps } from "next/app";
-// import { PersistGate } from "redux-persist/integration/react";
-// import { persistor, store } from "../app/store";
 import { Provider } from "react-redux";
 import { UserProvider } from "@supabase/auth-helpers-react";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -37,21 +35,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 			document.body.classList.remove("bg-shadeBlack");
 		}
 	});
-	
 
 	return (
 		<>
 			<UserProvider supabaseClient={supabaseClient}>
 				<Provider store={store}>
-					{/* <PersistGate loading={null} persistor={persistor}> */}
-						<ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-							<MantineProvider withGlobalStyles withNormalizeCSS theme={hiairTheme}>
-								<NotificationsProvider position="bottom-right">
-									<Component {...pageProps} />
-								</NotificationsProvider>
-							</MantineProvider>
-						</ColorSchemeProvider>
-					{/* </PersistGate> */}
+					<ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+						<MantineProvider withGlobalStyles withNormalizeCSS theme={hiairTheme}>
+							<NotificationsProvider position="bottom-right">
+								<Component {...pageProps} />
+							</NotificationsProvider>
+						</MantineProvider>
+					</ColorSchemeProvider>
 				</Provider>
 			</UserProvider>
 		</>
