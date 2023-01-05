@@ -1,9 +1,11 @@
-import { breezeBaseApi } from "./breezeBaseApi";
-import cartReducer from "./cart";
+import { hiairBaseApi } from "./hiairBaseApi";
+import userSession from "./userSession";
+import userCandidateFeedback from "./userCandidateFeedback";
 import userReducer from "./user";
 
 export const rootReducer = {
-	cart: cartReducer,
+	userSession,
 	user: userReducer,
-	[breezeBaseApi.reducerPath]: breezeBaseApi.reducer,
+	userCandidateFeedback,
+	[hiairBaseApi.reducerPath]: hiairBaseApi.reducer,
 };

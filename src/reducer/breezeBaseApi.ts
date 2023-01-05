@@ -51,6 +51,13 @@ export const breezeBaseApi = createApi({
 		getUserWishlist: builder.query<SupaBaseResponse<Array<UserWishListItem>>, string>({
 			query: (id: string) => `wishlist/${id}`,
 		}),
+		createUserOnBoarding: builder.mutation<OnBoardingForm, PaymentOrderPostBody>({
+			query: (body) => ({
+				url: "/payment/initiate",
+				method: "POST",
+				body: body,
+			}),
+		}),
 	}),
 });
 
@@ -67,5 +74,5 @@ export const {
 	useGetOrderItemsByOrderIdQuery,
 	useSetOrderStatusMutation,
 	useLazyGetUserWishlistQuery,
-	useInitiatePaymentMutation
+	useInitiatePaymentMutation,
 } = breezeBaseApi;
