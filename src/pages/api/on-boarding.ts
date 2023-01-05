@@ -2,7 +2,7 @@
 // import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 // import { definitions } from "../../types/supabase";
 import { dbConnect } from "lib";
-import { OnBoarding } from "models";
+import OnBoarding from "models/OnBoarding";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

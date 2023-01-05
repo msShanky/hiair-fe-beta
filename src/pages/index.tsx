@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import AppLayout from "../components/layout/AppLayout";
-import HomeBanner from "../components/feature/home/HomeBanner";
+import { AppLayout } from "@/components/layout";
+import { HomeBanner } from "@/components/feature";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useUser } from "@supabase/auth-helpers-react";

@@ -10,7 +10,7 @@ type AuthFormProps = {
 	handleGoogleLogin: (event: MouseEvent) => void;
 };
 
-const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
+export const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
 	const [type, toggle] = useToggle<"login" | "register">(["login", "register"]);
 	const [isLoading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<string>("");
@@ -114,5 +114,3 @@ const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
 		</Paper>
 	);
 };
-
-export default AuthForm;

@@ -37,12 +37,6 @@ export const CandidateRatingModal = (props: CandidateRatingModalProps) => {
 
 	const form = useForm<CandidateRatingForm>({ initialValues: formInitialState });
 
-	useEffect(() => {
-		return () => {
-			form.reset();
-		};
-	}, []);
-
 	const handleFormSubmit = (values: CandidateRatingForm) => {
 		handleRatingsSubmit(values);
 		setTimeout(() => {

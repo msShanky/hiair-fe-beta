@@ -15,3 +15,7 @@ type UserCandidateFeedbackStateType = {
 	userId: string;
 	candidateFeedback: Array<CandidateSelection>;
 };
+
+type UserStateType = {
+	user: any;
+};

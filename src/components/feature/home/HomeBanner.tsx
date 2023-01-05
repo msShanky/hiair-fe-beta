@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Lottie from "react-lottie";
 import * as selectionAnimation from "helpers/animations/selection-list-clients.json";
 
-const HomeBanner = () => {
+export const HomeBanner = () => {
 	const router = useRouter();
 
 	const defaultOptions = {
@@ -42,4 +42,4 @@ const HomeBanner = () => {
 	);
 };
 
-export default HomeBanner;
+

@@ -1,7 +1,7 @@
 import React, { MouseEvent } from "react";
 import Head from "next/head";
-import AuthForm from "../components/feature/auth/AuthForm";
-import AppLayout from "../components/layout/AppLayout";
+import { AuthForm } from "@/components/feature/auth";
+import { AppLayout } from "@/components/layout";
 import { supabaseClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/router";
 

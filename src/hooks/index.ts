@@ -1,1 +1,1 @@
-export { useWishlist } from './useWishlist'
+export * from './useHash'
