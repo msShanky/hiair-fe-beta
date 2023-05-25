@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { IconThumbUp, IconThumbDown } from "@tabler/icons";
+import { IconThumbUp, IconThumbDown } from "@tabler/icons-react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { OnBoardingLayout } from "@/components/layout";

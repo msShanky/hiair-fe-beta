@@ -19,9 +19,16 @@
 			"@/components/*": ["components/*"],
 			"@/lib/*": ["lib/*"],
 			"@/reducer/*": ["reducer/*"],
-			"@/copy/*": ["copy/*"]
-		}
+			"@/copy/*": ["copy/*"],
+			"@/animation": ["helpers/animations/*"]
+		},
+		"plugins": [
+			{
+				"name": "next"
+			}
+		]
 	},
-	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
 	"exclude": ["node_modules"]
 }
+

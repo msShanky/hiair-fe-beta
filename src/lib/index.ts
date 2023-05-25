@@ -1,1 +1,1 @@
-export { default as dbConnect } from "./dbConnect";
+export { default as prisma } from "./prisma";

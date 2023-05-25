@@ -20,7 +20,6 @@ module.exports = {
 		},
 		fontFamily: {
 			sans: ["Raleway", "sans-serif"],
-			serif: ["Merriweather", "serif"],
 		},
 		keyframes: {
 			wiggle: {
@@ -29,5 +28,5 @@ module.exports = {
 			},
 		},
 	},
-	plugins: [require("@tailwindcss/line-clamp"), require("tailwind-scrollbar")],
+	plugins: [require("tailwind-scrollbar")],
 };
