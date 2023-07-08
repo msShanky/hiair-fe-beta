@@ -12,7 +12,7 @@ type LinkButtonProps = {
 export const LinkButton: FC<LinkButtonProps> = (props) => {
 	const { link, label, isButton = false, handleClick } = props;
 
-	const styles: Record<string, HTMLProps<HTMLElement>["className"]> = {
+	const styles = {
 		buttonBase:
 			"text-black hover:text-secondaryYellow dark:hover:text-primaryAlt active:text-secondaryYellow dark:text-white bg-none hover:bg-black",
 	};

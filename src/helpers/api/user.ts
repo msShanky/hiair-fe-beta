@@ -1,7 +1,8 @@
-import axios from "axios";
+import { User } from "@prisma/client";
+import axios, { AxiosResponse } from "axios";
 
 export const getUser = async () => {
-	const { data } = await axios.get("/api/user");
+	const { data } = await axios.get<void, AxiosResponse<UserWithRelation>>("/api/user");
 	return data;
 };
 

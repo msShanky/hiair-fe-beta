@@ -22,7 +22,7 @@ export const HomeBanner = () => {
 		if (session.data) {
 			router.push("/hiair-beta");
 		} else {
-			signIn(undefined, { callbackUrl: "/onboarding" });
+			signIn(undefined, { callbackUrl: "/hiair-beta" });
 		}
 	};
 

@@ -23,15 +23,15 @@ const AppNavigation = () => {
 								label="Login"
 								isButton
 								link=""
-								handleClick={() => signIn(undefined, { callbackUrl: "/onboarding" })}
+								handleClick={() => signIn(undefined, { callbackUrl: "/hiair-beta" })}
 							/>
 						</>
 					)}
 					{session.data && (
 						<>
 							<LinkButton label="Hiair Beta" link="/hiair-beta" />
-							<LinkButton label="Candidates" link="/candidates" />
-							<LinkButton label="Request" link="/request" />
+							{/* <LinkButton label="Candidates" link="/candidates" /> */}
+							{/* <LinkButton label="Request" link="/request" /> */}
 							<LinkButton isButton handleClick={() => signOut({ callbackUrl: "/" })} label="Logout" link="/logout" />
 							<Avatar src={session.data?.user?.image} radius="xl" alt={session.data?.user?.name ?? "user profile"} />
 						</>

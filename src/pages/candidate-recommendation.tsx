@@ -81,7 +81,7 @@ const CandidateRecommendationPage: NextPage = () => {
 	// Use effect to handle user routing to onboarding page if there is no sessionId available
 	useEffect(() => {
 		if (!userSession.sessionId) {
-			router.push("/onboarding");
+			router.push("/hiair-beta");
 		}
 	}, [userSession, router]);
 

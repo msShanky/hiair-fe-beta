@@ -2,13 +2,13 @@ import React, { FunctionComponent, ReactElement } from "react";
 import Head from "next/head";
 import { AppHeader } from "@/components/common";
 
-type AppLayoutProps = {
+type RootLayoutProps = {
 	children: ReactElement;
 	isContained?: boolean;
 	title?: string;
 };
 
-const AppLayout: FunctionComponent<AppLayoutProps> = ({ children, title }) => {
+const RootLayout: FunctionComponent<RootLayoutProps> = ({ children, title }) => {
 	return (
 		<>
 			{title && (
@@ -17,9 +17,9 @@ const AppLayout: FunctionComponent<AppLayoutProps> = ({ children, title }) => {
 				</Head>
 			)}
 			<AppHeader />
-			<main className="container px-2 mx-auto">{children}</main>
+			<main>{children}</main>
 		</>
 	);
 };
 
-export default AppLayout;
+export default RootLayout;

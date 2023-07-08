@@ -54,7 +54,7 @@ model User {
   updatedAt     DateTime      @updatedAt @map(name: "updated_at")
   accounts      Account[]
   sessions      Session[]
-  candidate     Candidate[]
+  // candidate     Candidate[]
   userProfile   UserProfile[]
 
   @@map(name: "users")
@@ -97,61 +97,59 @@ model JobPool {
 }
 
 model Candidate {
-  id                Int      @id @default(autoincrement())
-  uId               String   @default(uuid())
-  jobTitle          String   @map(name: "job_title")
-  name              String
-  email             String   @unique
-  phone             String?
-  currentLocation   String?  @map(name: "current_location")
-  prefferedLocation String[] @map(name: "preffered_location")
-  currentSalary     Float?   @map(name: "current_salary")
-  totalExperience   Float    @map(name: "total_experience")
-  workExperience    Json?    @map(name: "work_experience")
-  education         Json?
-  skills            String[]
-  noticePeriod      Float?   @map(name: "notice_period")
-  jobPoolId         Int?     @map(name: "job_pool_id")
-  userId            String?  @map(name: "user_id")
-  createdAt         DateTime @default(now()) @map(name: "created_at")
-  updatedAt         DateTime @updatedAt @map(name: "updated_at")
-  jobPool           JobPool? @relation(fields: [jobPoolId], references: [id])
-  user              User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id              Int      @id @default(autoincrement())
+  canidateId      String   @default(uuid()) @map(name: "canidate_id")
+  name            String
+  jobTitle        String   @map(name: "job_title")
+  email           String   @unique
+  phone           String?
+  currentLocation String?  @map(name: "current_location")
+  desiredLocation String[] @map(name: "desired_location")
+  currentSalary   String?  @map(name: "current_salary") // Yearly, base starts with 1,00,000 and gets random till 9,99,99,999
+  totalExperience Int      @map(name: "total_experience") // Monthly, base with 0 and gets random till 360
+  workExperience  Json?    @map(name: "work_experience")
+  education       Json?
+  skills          String[]
+  noticePeriod    Int?     @map(name: "notice_period") // base with 0 and gets random till 90
+  jobPoolId       Int?     @map(name: "job_pool_id")
+  createdAt       DateTime @default(now()) @map(name: "created_at")
+  updatedAt       DateTime @default(now()) @updatedAt @map(name: "updated_at")
+  jobPool         JobPool? @relation(fields: [jobPoolId], references: [id])
 
   @@map("candidate")
 }
 
-model ServiceDomain {
-  id            Int             @id @default(autoincrement())
-  name          String
-  key           String
-  createdAt     DateTime        @default(now()) @map(name: "created_at")
-  updatedAt     DateTime        @updatedAt @map(name: "updated_at")
-  skillCategory SkillCategory[]
+// model ServiceDomain {
+//   id            Int             @id @default(autoincrement())
+//   name          String
+//   key           String
+//   createdAt     DateTime        @default(now()) @map(name: "created_at")
+//   updatedAt     DateTime        @updatedAt @map(name: "updated_at")
+//   skillCategory SkillCategory[]
 
-  @@map("service_domain")
-}
+//   @@map("service_domain")
+// }
 
-model SkillCategory {
-  id              Int           @id @default(autoincrement())
-  label           String
-  key             String
-  description     String
-  createdAt       DateTime      @default(now()) @map(name: "created_at")
-  updatedAt       DateTime      @updatedAt @map(name: "updated_at")
-  serviceDomainId Int           @map(name: "service_domain_id")
-  serviceDomain   ServiceDomain @relation(fields: [serviceDomainId], references: [id])
+// model SkillCategory {
+//   id              Int           @id @default(autoincrement())
+//   label           String
+//   key             String
+//   description     String
+//   createdAt       DateTime      @default(now()) @map(name: "created_at")
+//   updatedAt       DateTime      @updatedAt @map(name: "updated_at")
+//   serviceDomainId Int           @map(name: "service_domain_id")
+//   serviceDomain   ServiceDomain @relation(fields: [serviceDomainId], references: [id])
 
-  @@map("skill_category")
-}
+//   @@map("skill_category")
+// }
 
-model Skill {
-  id        Int      @id @default(autoincrement())
-  label     String
-  key       String
-  tags      String[]
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+// model Skill {
+//   id        Int      @id @default(autoincrement())
+//   label     String
+//   key       String
+//   tags      String[]
+//   createdAt DateTime @default(now()) @map(name: "created_at")
+//   updatedAt DateTime @updatedAt @map(name: "updated_at")
 
-  @@map("skill")
-}
+//   @@map("skill")
+// }

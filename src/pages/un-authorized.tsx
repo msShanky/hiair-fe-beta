@@ -12,7 +12,7 @@ const UnAuthorizedPage: NextPage = () => {
 					The user is not authorized to view the content try to login to gain access.
 				</Title>
 				<button
-					onClick={() => signIn(undefined, { callbackUrl: "/onboarding" })}
+					onClick={() => signIn(undefined, { callbackUrl: "/hiair-beta" })}
 					className="flex flex-col items-center justify-center w-4/12 p-4 transition duration-300 rounded-md group bg-secondaryYellow hover:cursor-pointer"
 				>
 					<Text className="text-xl text-center text-black">Login</Text>

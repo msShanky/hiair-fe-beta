@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
-import { AppLayout } from "@/components/layout";
+import { RootLayout } from "@/components/layout";
 import { BaseLanding, UserLanding } from "../components";
 
 const Home: NextPage = () => {
 	return (
-		<AppLayout title="Hiair | Home">
+		<RootLayout title="Hiair | Home">
 			<BaseLanding />
-		</AppLayout>
+		</RootLayout>
 	);
 };
 

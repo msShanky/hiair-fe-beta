@@ -1,15 +1,16 @@
 import type { NextPage } from "next";
 import { AppLayout } from "@/components/layout";
 import { useSession } from "next-auth/react";
+import { Button } from "@mantine/core";
 import { UserLanding as CandidateLanding, RecruiterLanding } from "../components";
 import { useRouter } from "next/router";
 import { useQuery } from "@tanstack/react-query";
 import { getUser } from "helpers/api";
+import { DropzoneButton } from "@/components/common/input";
 
-const HiairBetaPage: NextPage = () => {
+const CandidatesPage: NextPage = () => {
 	const { data: session, status } = useSession();
 	const router = useRouter();
-	const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
 
 	console.log("The user session ======> ", session);
 
@@ -17,17 +18,18 @@ const HiairBetaPage: NextPage = () => {
 		router.push("/un-authorized");
 	}
 
-	console.log("The user query response => ", data);
+	const buttonBase = "text-black dark:hover:text-primary active:text-secondaryYellow bg-white hover:bg-primaryAlt";
 
 	return (
 		<AppLayout title="Hiair Beta">
-			{data?.userProfile[0].userType === "CANDIDATE" ? (
-				<CandidateLanding profileType={"CANDIDATE"} />
-			) : (
-				<RecruiterLanding profileType={"RECRUITER"} />
-			)}
+			<section>
+				{/* <Button onClick={() => router.push("/candidates")} className={buttonBase}>
+					Upload 
+				</Button> */}
+				<DropzoneButton />
+			</section>
 		</AppLayout>
 	);
 };
 
-export default HiairBetaPage;
+export default CandidatesPage;
