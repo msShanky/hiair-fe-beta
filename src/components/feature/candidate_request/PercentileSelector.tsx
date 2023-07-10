@@ -11,8 +11,8 @@ export const PercentileSelector = (props: PercentileSelectorProps) => {
 	const { label, setValue, value } = props;
 
 	return (
-		<div className="flex gap-4 w-full items-center">
-			<Text className="w-4/12 text-2xl items-center flex gap-2 dark:text-secondaryYellow text-black">
+		<div className="flex items-center w-full gap-4">
+			<Text className="flex items-center w-4/12 gap-2 text-2xl text-black dark:text-white">
 				{label}
 				<span className="text-base">{value} %</span>
 			</Text>

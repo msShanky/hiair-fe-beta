@@ -1,6 +1,6 @@
-import { Button, Title } from "@mantine/core";
 import React from "react";
 import Lottie from "react-lottie";
+import { Button, Title, Group } from "@mantine/core";
 import * as candidateHiring from "helpers/animations/we-are-hiring.json";
 import { PercentileSelector } from "./PercentileSelector";
 import { candidateSelectionTuning } from "copy";
@@ -9,6 +9,7 @@ import { useForm } from "@mantine/form";
 type CandidateTuningProps = {
 	handleFormSubmit: (values: CandidateTuningForm) => void;
 	initialFormValues: CandidateTuningForm;
+	prevStep: () => void;
 };
 
 const defaultOptions = {
@@ -21,8 +22,8 @@ const defaultOptions = {
 };
 
 export const CandidateTuning = (props: CandidateTuningProps) => {
-	const { handleFormSubmit, initialFormValues } = props;
-	const form = useForm<CandidateTuningForm>({ initialValues: initialFormValues });
+	const { handleFormSubmit, initialFormValues, prevStep } = props;
+	const form = useForm<CandidateTuningForm>({ initialValues: { ...initialFormValues } });
 
 	const handlePercentileChange = (value: number, key: string) => {
 		form.setFieldValue(key, value);
@@ -35,7 +36,7 @@ export const CandidateTuning = (props: CandidateTuningProps) => {
 					<Lottie options={defaultOptions} height={500} width={600} />
 				</aside>
 				<article className="w-6/12">
-					<Title order={1} className="mb-12 text-4xl font-thin text-primaryAlt">
+					<Title order={1} className="mb-12 text-4xl font-thin dark:text-secondaryYellow text-primaryAlt">
 						What would be your preference for the below, when selecting a candidate!
 					</Title>
 					<div className="flex flex-col gap-y-9">
@@ -53,11 +54,20 @@ export const CandidateTuning = (props: CandidateTuningProps) => {
 					</div>
 				</article>
 			</main>
-			<div className="flex self-end gap-10 mt-24">
-				<Button type="submit" className="w-32 text-white bg-primary hover:bg-primary hover:bg-opacity-30">
-					Next
+			<Group position="center" mt="xl">
+				<Button variant="default" type="button" className="text-white hover:text-black" onClick={prevStep}>
+					Back
 				</Button>
-			</div>
+				<Button
+					type="submit"
+					disabled={!form.isValid()}
+					className={
+						"text-black hover:text-secondaryYellow dark:hover:bg-primaryAlt active:text-secondaryYellow dark:text-white dark:hover:text-black bg-none hover:bg-black dark:bg-primary disabled:bg-slate-300 dark:disabled:bg-slate-300 dark:disabled:text-black disabled:hover:cursor-not-allowed hover:cursor-pointer"
+					}
+				>
+					Next step
+				</Button>
+			</Group>
 		</form>
 	);
 };

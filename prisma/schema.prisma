@@ -98,7 +98,7 @@ model JobPool {
 
 model Candidate {
   id              Int      @id @default(autoincrement())
-  canidateId      String   @default(uuid()) @map(name: "canidate_id")
+  candidateId     String   @default(uuid()) @map(name: "candidate_id")
   name            String
   jobTitle        String   @map(name: "job_title")
   email           String   @unique

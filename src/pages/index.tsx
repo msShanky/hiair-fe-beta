@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { RootLayout } from "@/components/layout";
-import { BaseLanding, UserLanding } from "../components";
+import { BaseLanding, CandidateLanding } from "../components";
 
 const Home: NextPage = () => {
 	return (

@@ -1,32 +1,45 @@
 import type { NextPage } from "next";
+import { useState } from "react";
 import { AppLayout } from "@/components/layout";
 import { useSession } from "next-auth/react";
 import { Button } from "@mantine/core";
-import { UserLanding as CandidateLanding, RecruiterLanding } from "../components";
 import { useRouter } from "next/router";
-import { useQuery } from "@tanstack/react-query";
-import { getUser } from "helpers/api";
+import { CandidateTable } from "@/components/feature/candidates";
+import { IconUpload, IconX } from "@tabler/icons-react";
 import { DropzoneButton } from "@/components/common/input";
 
 const CandidatesPage: NextPage = () => {
 	const { data: session, status } = useSession();
+	const [isUpload, setUpload] = useState(false);
 	const router = useRouter();
-
-	console.log("The user session ======> ", session);
 
 	if (!session && status !== "loading") {
 		router.push("/un-authorized");
 	}
 
-	const buttonBase = "text-black dark:hover:text-primary active:text-secondaryYellow bg-white hover:bg-primaryAlt";
+	const buttonBase =
+		"dark:text-black text-white dark:hover:text-primary active:text-secondaryYellow bg-primary dark:bg-primaryAlt hover:bg-primaryAlt group";
 
 	return (
-		<AppLayout title="Hiair Beta">
-			<section>
-				{/* <Button onClick={() => router.push("/candidates")} className={buttonBase}>
-					Upload 
-				</Button> */}
-				<DropzoneButton />
+		<AppLayout title="Hiair Beta | candidates">
+			<section className="flex flex-col mt-4 gap-y-4">
+				<div className="flex justify-end">
+					<Button
+						onClick={() => setUpload(!isUpload)}
+						className={buttonBase}
+						classNames={{
+							label: "flex gap-2",
+						}}
+					>
+						{isUpload ? (
+							<IconX className="w-4 h-4 stroke-red-600" />
+						) : (
+							<IconUpload className="w-4 h-4 dark:stroke-black stroke-white" />
+						)}
+						<p>{isUpload ? "Cancel Upload" : "Upload Candidates"}</p>
+					</Button>
+				</div>
+				{isUpload ? <DropzoneButton /> : <CandidateTable />}
 			</section>
 		</AppLayout>
 	);

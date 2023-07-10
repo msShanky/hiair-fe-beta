@@ -3,30 +3,30 @@ import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 const initialState: UserSessionStateType = {
 	sessionId: "",
 	userId: "",
-	onBoardingInfo: {
-		firstName: "",
-		role: "",
-		expected_hiring_count: 0,
-		gender: "male",
-		lastName: "",
-		organization: "",
+	companyInfo: {
+		name: "HiAir",
+		about:
+			"HiAir is a recruitment startup focusing on using latest machine learning techniques to curate the best talent for companies and individuals",
+		currentRole: "Hiring Manager",
+		expectedHiringCount: 10,
+		industry: "Human Resource, AI/ML",
+		companyType: "startup",
+		companySize: 2,
 	},
 	candidateRequest: {
-		skill_set: [],
-		domain: "",
-		experience: "",
-		industry: "",
-		job_location: [],
-		notice_period: [],
-		required_profile: 0,
-		role: "",
-		salary_range: [4, 12],
-		turn_around_time: 0,
+		jobTitle: "Full Stack Developer",
+		jobLocation: ["chennai", "bangalore"],
+		salaryRange: [0, 6],
+		experience: [0, 3],
+		availablePosition: 0,
+		keySkills: [],
+		expectedJoiningDate: [],
+		educationQualification: "Any Degree",
+		modeOfWork: "remote",
+		rawJD: "",
 	},
 	candidateSelectionTuning: {
-		domain: 50,
 		experience: 50,
-		industry: 50,
 		location: 50,
 		notice_period: 50,
 		salary: 50,
@@ -38,18 +38,13 @@ export const userSlice = createSlice({
 	name: "userSession",
 	initialState,
 	reducers: {
-		updateOnBoarding: (state, { payload }: PayloadAction<OnBoardingForm>) => {
-			// if (state.sessionId === "" || state.) {
-			// 	state.sessionId = nanoid();
-			// 	state.
-			// }
-			state.onBoardingInfo = payload;
+		updateCompanyInfo: (state, { payload }: PayloadAction<CompanyInformation>) => {
+			state.companyInfo = payload;
 		},
 		createUserSession: (state, { payload }: PayloadAction<{ sessionId: string; userId: string }>) => {
 			state.sessionId = payload.sessionId;
-			state.userId = payload.userId;
 		},
-		updateCandidateRequest: (state, { payload }: PayloadAction<CandidateRequestForm>) => {
+		updateCandidateRequest: (state, { payload }: PayloadAction<CandidateRequest>) => {
 			if (state.sessionId === "") {
 				state.sessionId = nanoid();
 			}
@@ -70,7 +65,7 @@ export const userSlice = createSlice({
 
 const { actions, reducer } = userSlice;
 
-export const { updateOnBoarding, createUserSession, updateCandidateRequest, updateCandidateTuning, resetUserSession } =
+export const { updateCompanyInfo, createUserSession, updateCandidateRequest, updateCandidateTuning, resetUserSession } =
 	actions;
 
 export default reducer;

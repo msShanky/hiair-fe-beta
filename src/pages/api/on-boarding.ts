@@ -1,11 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-// import { definitions } from "../../types/supabase";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	// await dbConnect();
-
 	if (req.method === "GET") {
 		try {
 			// const onboarding = await OnBoarding.find({});

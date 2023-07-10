@@ -17,8 +17,6 @@ type CandidateTuningForm = {
 	experience: number;
 	salary: number;
 	location: number;
-	industry: number;
-	domain: number;
 	notice_period: number;
 };
 
