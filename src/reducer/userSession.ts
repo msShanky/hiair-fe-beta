@@ -4,18 +4,18 @@ const initialState: UserSessionStateType = {
 	sessionId: "",
 	userId: "",
 	companyInfo: {
-		name: "HiAir",
-		about:
-			"HiAir is a recruitment startup focusing on using latest machine learning techniques to curate the best talent for companies and individuals",
-		currentRole: "Hiring Manager",
-		expectedHiringCount: 10,
-		industry: "Human Resource, AI/ML",
-		companyType: "startup",
-		companySize: 2,
+		name: "",
+		about: "",
+		currentRole: "",
+		expectedHiringCount: 0,
+		industry: "",
+		address: "",
+		companyType: "",
+		companySize: 0,
 	},
 	candidateRequest: {
-		jobTitle: "Full Stack Developer",
-		jobLocation: ["chennai", "bangalore"],
+		jobTitle: "",
+		jobLocation: [],
 		salaryRange: [0, 6],
 		experience: [0, 3],
 		availablePosition: 0,
@@ -38,7 +38,7 @@ export const userSlice = createSlice({
 	name: "userSession",
 	initialState,
 	reducers: {
-		updateCompanyInfo: (state, { payload }: PayloadAction<CompanyInformation>) => {
+		updateCompanyInfo: (state, { payload }: PayloadAction<CompanyInformationFormState>) => {
 			state.companyInfo = payload;
 		},
 		createUserSession: (state, { payload }: PayloadAction<{ sessionId: string; userId: string }>) => {

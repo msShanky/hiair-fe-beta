@@ -2,6 +2,7 @@ import { Button, Divider, Text, Title } from "@mantine/core";
 import { IconMapPin } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue, useAnimationControls } from "framer-motion";
+import { Candidate } from "@prisma/client";
 
 type CandidateListCardProps = {
 	candidate: Candidate;
@@ -28,7 +29,7 @@ export const CandidateListCard = (props: CandidateListCardProps) => {
 		handleDragState(false);
 	};
 
-	const { state, first_name, last_name, headline, current_ctc, total_experience, notice_period } = candidate;
+	const { noticePeriod, currentSalary, location, fullName, summary, totalExperience } = candidate;
 
 	return (
 		<motion.div
@@ -44,31 +45,27 @@ export const CandidateListCard = (props: CandidateListCardProps) => {
 			dragSnapToOrigin
 			onDragEnd={handleCardDrop}
 		>
-			<Title className="w-full h-20 text-3xl text-white line-clamp-2">
-				{first_name} {last_name}
-			</Title>
-			<Text className="font-sans text-lg font-light h-14 line-clamp-2">{headline}</Text>
+			<Title className="w-full h-20 text-3xl text-white line-clamp-2">{fullName}</Title>
+			<Text className="font-sans text-lg font-light h-14 line-clamp-2">{summary}</Text>
 			<div className="flex items-center gap-4">
 				<IconMapPin />
-				<Text>
-					{candidate.city ?? "NA"}, {state ?? "NA"}
-				</Text>
+				<Text>{location ?? "NA"}</Text>
 			</div>
 			<Divider className="w-full my-4 stroke-white" />
 			<div className="flex flex-row justify-between gap-6">
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">current ctc</Text>
-					<Text className="text-xl font-thin">{current_ctc}</Text>
+					<Text className="text-xl font-thin">{currentSalary}</Text>
 					<Text className="text-xs font-thin">lacks</Text>
 				</span>
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">experience</Text>
-					<Text className="text-xl font-thin">{total_experience}</Text>
+					<Text className="text-xl font-thin">{totalExperience}</Text>
 					<Text className="text-xs font-thin">years</Text>
 				</span>
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">notice period</Text>
-					<Text className="text-xl font-thin">{notice_period}</Text>
+					<Text className="text-xl font-thin">{noticePeriod}</Text>
 					<Text className="text-xs font-thin">months</Text>
 				</span>
 			</div>

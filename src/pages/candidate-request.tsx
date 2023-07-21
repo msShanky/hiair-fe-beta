@@ -6,19 +6,26 @@ import {
 	CandidateTuning,
 	CandidateRequestForm,
 	PreviewJD,
+	CompanyHandler,
 } from "@/components/feature/candidate_request";
 import { updateCandidateRequest, updateCandidateTuning, updateCompanyInfo } from "@/reducer/userSession";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
 import { Stepper } from "@mantine/core";
+import { useStoreUserSessionMutation } from "@/reducer/hiairBaseApi";
 
 const CandidateRequestPage: NextPage = () => {
+	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const userSession = useAppSelector((state) => state.userSession);
-	const router = useRouter();
 	const [active, setActive] = useState(0);
 	const nextStep = () => setActive((current) => (current < 4 ? current + 1 : current));
-	const prevStep = () => setActive((current) => (current > 1 ? current - 1 : current));
+	const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
+
+	const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
+		fixedCacheKey: "user-session",
+		selectFromResult: (values) => values,
+	});
 
 	const handleCandidateRequestCreation = (values: CandidateRequest) => {
 		// TODO: IF the session id is null then create a new session id
@@ -26,24 +33,33 @@ const CandidateRequestPage: NextPage = () => {
 		nextStep();
 	};
 
-	const handleCompanyInformation = (values: CompanyInformation) => {
-		dispatch(updateCompanyInfo(values));
-		nextStep();
-	};
+	// const handleCompanyInformation = (values: CompanyInformationFormState) => {
+	// 	dispatch(updateCompanyInfo(values));
+	// 	nextStep();
+	// };
 
 	const handleCandidateTuning = async (values: CandidateTuningForm) => {
 		// TODO: IF the session id is null then create a new session id
-		await dispatch(updateCandidateTuning(values));
-		// router.push("/candidate-recommendation");
-		nextStep();
+		dispatch(updateCandidateTuning(values));
+		try {
+			const sessionResponse = await postUserSession({ ...userSession, candidateSelectionTuning: values });
+			if (sessionResponse) {
+				console.log("The data received from the API");
+				// @ts-ignore
+				const { candidateRequest } = sessionResponse.data;
+				router.push(`/candidate-recommendation?requestId=${candidateRequest.refId}`);
+			}
+		} catch (error) {}
 	};
 
-	// TODO: Step 1 Display on boarding steps
-	// TODO: Step 2 Collect company information
-	// TODO: Step 2 Collect job description
-	// TODO: Step 4 Preview JD
-	// TODO: Step 5 Collect weights for recommendations
-	// TODO: Step 6 Navigate to recommendations
+	console.log("user session post call response => ", userSessionResponse);
+
+	// Step 1 Display on boarding steps
+	// Step 2 Collect company information
+	// Step 3 Collect job description
+	// Step 4 Preview JD
+	// Step 5 Collect weights for recommendations
+	// Step 6 Navigate to recommendations
 
 	return (
 		<AppLayout title="HiAir | Candidate Request">
@@ -58,10 +74,7 @@ const CandidateRequestPage: NextPage = () => {
 					}}
 				>
 					<Stepper.Step label="Company" description="About the company" className="text-white active:text-primaryAlt">
-						<CompanyInformationForm
-							initialFormValues={userSession.companyInfo}
-							handleFormSubmit={handleCompanyInformation}
-						/>
+						<CompanyHandler nextStep={nextStep} />
 					</Stepper.Step>
 					<Stepper.Step label="Job Description" description="About the job posting">
 						<CandidateRequestForm

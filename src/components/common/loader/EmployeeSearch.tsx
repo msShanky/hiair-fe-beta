@@ -13,7 +13,7 @@ export const EmployeeSearch = () => {
 	};
 	return (
 		<div className="flex items-center justify-center w-full">
-			<Lottie options={defaultOptions} height={650} width={650} />
+			<Lottie options={defaultOptions} height={500} width={450} />
 		</div>
 	);
 };

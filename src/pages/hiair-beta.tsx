@@ -12,8 +12,6 @@ const HiairBetaPage: NextPage = () => {
 	const router = useRouter();
 	const { data } = useQuery({ queryKey: ["user"], queryFn: getUser });
 
-	console.log("The user session ======> ", session);
-
 	if (!session && status !== "loading") {
 		router.push("/un-authorized");
 	}

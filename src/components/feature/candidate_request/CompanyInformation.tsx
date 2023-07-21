@@ -1,81 +1,51 @@
 import React from "react";
-import { Textarea, Button, Group, TextInput, NumberInput, Select } from "@mantine/core";
+import { Textarea, Button, Group, Select } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { companyTypeStatic } from "copy";
 
+import { CustomNumberInput, CustomTextInput } from "../../common/form";
 // import { useGetCandidateLocationQuery, useGetCandidateSkillsQuery } from "@/reducer/hiairBaseApi";
 
 type CompanyInformationFormProps = {
-	handleFormSubmit: (values: CompanyInformation) => void;
-	initialFormValues: CompanyInformation;
+	handleFormSubmit: (values: CompanyInformationFormState) => void;
+	initialFormValues: CompanyInformationFormState;
 };
 
 export const CompanyInformationForm = (props: CompanyInformationFormProps) => {
 	const { handleFormSubmit, initialFormValues } = props;
 
-	const form = useForm<CompanyInformation>({
+	const form = useForm<CompanyInformationFormState>({
 		initialValues: { ...initialFormValues },
 		validateInputOnBlur: true,
 		validate: {
 			name: (value) => (value.length < 2 ? "Name should be greater than 2 character" : null),
-			currentRole: (value) => (value.length < 2 ? "Current role should be greater than 2 character" : null),
-			industry: (value) => (value.length < 2 ? "Industry should be greater than 2 character" : null),
-			expectedHiringCount: (value) => (value < 0 ? "Expected count should be greater than 0" : null),
+			currentRole: (value) => (value.length < 2 ? "Current role should be greater than or equal to 2 character" : null),
+			industry: (value) =>
+				value && value.length < 2 ? "Industry should be greater than or equal to 2 character" : null,
+			domain: (value) => (value && value.length < 2 ? "Domain should be greater than or equal to 2 character" : null),
+			address: (value) => (value.length < 5 ? "Please enter a valid address" : null),
+			contactInfo: (value) => (value && value.length != 10 ? "Please enter a valid 10 digit phone number" : null),
+			companySize: (value) => (value <= 0 ? "Expected count should be greater than 0" : null),
+			expectedHiringCount: (value) => (value <= 0 ? "Expected count should be greater than 0" : null),
 		},
 	});
 
 	return (
-		<form onSubmit={form.onSubmit(handleFormSubmit)} className="container flex flex-col mx-auto mt-20 gap-y-6">
+		<form onSubmit={form.onSubmit(handleFormSubmit)} className="container flex flex-col mx-auto mt-8 gap-y-6">
 			<div className="grid grid-cols-2 gap-4">
-				<TextInput
-					classNames={{
-						label: "dark:text-white text-black",
-					}}
-					{...form.getInputProps("name")}
-					className="w-full "
-					label="Company Name"
-					withAsterisk
-					placeholder="HiAir"
-				/>
-				<TextInput
-					classNames={{
-						label: "dark:text-white text-black",
-					}}
-					{...form.getInputProps("currentRole")}
-					className="w-full "
-					label="Your Role in Company"
-					withAsterisk
-					placeholder="Hiring Manger"
-				/>
-				<TextInput
-					classNames={{
-						label: "dark:text-white text-black",
-					}}
-					{...form.getInputProps("industry")}
-					className="w-full "
-					label="Industry of company"
-					withAsterisk
-					placeholder="Consulting"
-				/>
-				<NumberInput
-					classNames={{
-						label: "dark:text-white text-black",
-					}}
-					{...form.getInputProps("companySize")}
-					className="w-full "
-					label="Company Size"
-					withAsterisk
-					placeholder="5"
-				/>
-				<NumberInput
-					classNames={{
-						label: "dark:text-white text-black",
-					}}
-					{...form.getInputProps("expectedHiringCount")}
-					className="w-full "
+				<CustomTextInput form={form} label="Company Name" field={"name"} placeholder="Hiair" />
+				<CustomTextInput form={form} label="Current Role" field={"currentRole"} placeholder="Hiring Manger" />
+				<CustomTextInput form={form} label="Company Address" field={"address"} placeholder="10, Dubai cross street" />
+				<CustomTextInput form={form} label="Industry" field={"industry"} placeholder="Consulting" isOptional />
+				<CustomTextInput form={form} label="Domain" field={"domain"} placeholder="IT" isOptional />
+				<CustomTextInput form={form} label="Website" field={"website"} placeholder="www.hiair.in" isOptional />
+				<CustomTextInput form={form} label="Phone" field={"contactInfo"} placeholder="82xxx45xxx" isOptional />
+				<CustomNumberInput form={form} label="Company Size" field={"companySize"} placeholder="5" />
+				<CustomNumberInput
+					form={form}
 					label="Expected Hiring Count Per Month"
-					withAsterisk
-					placeholder="0"
+					field={"expectedHiringCount"}
+					placeholder="5"
 				/>
 				<Select
 					label="Company Type"
@@ -86,6 +56,29 @@ export const CompanyInformationForm = (props: CompanyInformationFormProps) => {
 					{...form.getInputProps("companyType")}
 					data={companyTypeStatic}
 				/>
+				<div className="flex col-span-2 gap-4">
+					<CustomTextInput
+						form={form}
+						label="Linkedin URL"
+						field={"linkedinLink"}
+						placeholder="www.linkedin.com"
+						isOptional
+					/>
+					<CustomTextInput
+						form={form}
+						label="Twitter URL"
+						field={"twitterLink"}
+						placeholder="www.twitter.com"
+						isOptional
+					/>
+					<CustomTextInput
+						form={form}
+						label="Facebook URL"
+						field={"facebookURL"}
+						placeholder="www.facebook.com"
+						isOptional
+					/>
+				</div>
 				<Textarea
 					classNames={{
 						label: "dark:text-white text-black",
@@ -98,12 +91,8 @@ export const CompanyInformationForm = (props: CompanyInformationFormProps) => {
 				/>
 			</div>
 			<Group position="center" mt="xl">
-				{/* <Button variant="default" onClick={prevStep}>
-					Back
-				</Button> */}
 				<Button
 					type="submit"
-					// onClick={nextStep}
 					disabled={!form.isValid()}
 					className={
 						"text-black hover:text-secondaryYellow dark:hover:bg-primaryAlt active:text-secondaryYellow dark:text-white dark:hover:text-black bg-none hover:bg-black dark:bg-primary disabled:bg-slate-300 dark:disabled:bg-slate-300 dark:disabled:text-black disabled:hover:cursor-not-allowed hover:cursor-pointer"

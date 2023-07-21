@@ -9,7 +9,7 @@ export const candidateColumns = [
 		cell: (info) => info.getValue(),
 		header: "ID",
 	}),
-	candidateColumnHelper.accessor("name", {
+	candidateColumnHelper.accessor("fullName", {
 		cell: (info) => info.getValue(),
 		header: "Name",
 	}),
@@ -28,16 +28,16 @@ export const candidateColumns = [
 		cell: (info) => info.getValue(),
 		header: () => "Phone Number",
 	}),
-	candidateColumnHelper.accessor((row) => row.currentLocation, {
-		id: "currentLocation",
-		cell: (info) => info.getValue(),
-		header: () => "Current Location",
-	}),
-	candidateColumnHelper.accessor((row) => row.desiredLocation, {
-		id: "desiredLocation",
-		cell: (info) => info.getValue(),
-		header: () => "Desired Location",
-	}),
+	// candidateColumnHelper.accessor((row) => row., {
+	// 	id: "currentLocation",
+	// 	cell: (info) => info.getValue(),
+	// 	header: () => "Current Location",
+	// }),
+	// candidateColumnHelper.accessor((row) => row.desiredLocation, {
+	// 	id: "desiredLocation",
+	// 	cell: (info) => info.getValue(),
+	// 	header: () => "Desired Location",
+	// }),
 	candidateColumnHelper.accessor((row) => row.currentSalary, {
 		id: "currentSalary",
 		cell: (info) => info.getValue(),
@@ -50,7 +50,7 @@ export const candidateColumns = [
 	}),
 	candidateColumnHelper.accessor((row) => row.skills, {
 		id: "skills",
-		cell: (info) => info.getValue(),
+		cell: (info) => info.getValue().length,
 		header: () => "Skills",
 	}),
 	candidateColumnHelper.accessor((row) => row.noticePeriod, {
@@ -58,11 +58,11 @@ export const candidateColumns = [
 		cell: (info) => info.getValue(),
 		header: () => "Notice Period",
 	}),
-	candidateColumnHelper.accessor((row) => row.jobPoolId, {
-		id: "jobPoolId",
-		cell: (info) => info.getValue(),
-		header: () => "JobPoolId",
-	}),
+	// candidateColumnHelper.accessor((row) => row.jobPoolId, {
+	// 	id: "jobPoolId",
+	// 	cell: (info) => info.getValue(),
+	// 	header: () => "JobPoolId",
+	// }),
 	candidateColumnHelper.display({
 		id: "actions",
 		cell: (props) => <div>Actions</div>,

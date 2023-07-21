@@ -1,11 +1,18 @@
-type CompanyInformation = {
+type CompanyInformationFormState = {
 	name: string;
 	currentRole: string;
-	expectedHiringCount: number;
-	industry: string;
+	address: string;
 	companySize: number;
-	companyType?: string;
-	about?: string;
+	companyType: string;
+	expectedHiringCount: number;
+	about: string;
+	industry?: string;
+	domain?: string;
+	website?: string;
+	contactInfo?: string;
+	linkedinLink?: string;
+	twitterLink?: string;
+	facebookLink?: string;
 };
 
 type CandidateRequest = {
@@ -25,7 +32,7 @@ type CandidateRequest = {
 type UserSessionStateType = {
 	sessionId: string;
 	userId: string;
-	companyInfo: CompanyInformation;
+	companyInfo: CompanyInformationFormState;
 	candidateRequest: CandidateRequest;
 	candidateSelectionTuning: CandidateTuningForm;
 };

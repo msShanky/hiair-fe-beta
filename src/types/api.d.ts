@@ -4,35 +4,38 @@ type ApiResponse<T> = {
 	data: T;
 };
 
-type CandidateLocationResponse = ApiResponse<Array<string>>;
+type CandidateLocationResponse = ApiResponse<Array<{ label: string; value: string }>>;
 
-type CandidateSkillResponse = ApiResponse<Array<string>>;
+type CandidateSkillResponse = ApiResponse<Array<{ label: string; value: string }>>;
 
 type UserSessionCreateResponse = ApiResponse<UserSessionStateType>;
 
-type Candidate = {
-	_id: string;
-	Index: number;
-	first_name: string;
-	last_name: string;
-	full_name: string;
-	occupation?: string;
-	headline?: string;
-	summary?: string;
-	experience?: Array<any>;
-	education?: Array<any>;
-	industry?: string;
-	skills?: Array<string>;
-	city?: string;
-	state: string;
-	country: string;
-	total_experience: number;
-	notice_period: number;
-	current_ctc: number;
-	user_id: string;
+type SessionResponse = {
+	companyInformation: import("@prisma/client").CompanyInformation;
+	candidateRequest: import("@prisma/client").CandidateRequest;
 };
 
-type CandidateResponse = ApiResponse<Array<Candidate>>;
+type CandidateResponse = ApiResponse<import("@prisma/client").Candidate>;
+type CompanyResponse = {
+	companies: Array<import("@prisma/client").CompanyInformation>;
+};
 
+type UserFeedbackCreateResponse = ApiResponse<UserCandidateFeedbackStateType>;
 
-type UserFeedbackCreateResponse = ApiResponse<UserCandidateFeedbackStateType>
+type DashboardJobPoolStats = {
+	candidateCount: number;
+	desiredLocationCount: number;
+	candidateLocationCount: number;
+	candidateSkillCount: number;
+	candidateTitleCount: number;
+	totalLocations: number;
+	totalNonTechSkills: number;
+	totalTechSkills: number;
+	topLocations: Array<import("@prisma/client").Location & { count: number }>;
+	topSkills: Array<import("@prisma/client").Skill & { count: number }>;
+};
+
+type DashboardResponse = {
+	jobPoolStats: DashboardJobPoolStats;
+	userStats: {};
+};

@@ -12,10 +12,10 @@ datasource db {
 
 model Account {
   id                       String  @id @default(cuid())
-  userId                   String  @map("user_id")
+  userId                   String  @map(name: "user_id")
   type                     String
   provider                 String
-  providerAccountId        String  @map("provider_account_id")
+  providerAccountId        String  @map(name: "provider_account_id")
   refresh_token            String?
   access_token             String?
   expires_at               Int?
@@ -35,8 +35,8 @@ model Account {
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique @map("session_token")
-  userId       String   @map("user_id")
+  sessionToken String   @unique @map(name: "session_token")
+  userId       String   @map(name: "user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -44,18 +44,19 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?     @map("email_verified")
-  image         String?
-  isAdmin       Boolean       @default(false)
-  createdAt     DateTime      @default(now()) @map(name: "created_at")
-  updatedAt     DateTime      @updatedAt @map(name: "updated_at")
-  accounts      Account[]
-  sessions      Session[]
-  // candidate     Candidate[]
-  userProfile   UserProfile[]
+  id                 String               @id @default(cuid())
+  name               String?
+  email              String?              @unique
+  emailVerified      DateTime?            @map(name: "email_verified")
+  image              String?
+  isAdmin            Boolean              @default(false)
+  createdAt          DateTime             @default(now()) @map(name: "created_at")
+  updatedAt          DateTime             @updatedAt @map(name: "updated_at")
+  accounts           Account[]
+  sessions           Session[]
+  userProfile        UserProfile[]
+  userCompanyMapping UserCompanyMapping[]
+  candidateRequest   CandidateRequest[]
 
   @@map(name: "users")
 }
@@ -78,7 +79,7 @@ model UserProfile {
   id        Int      @id @default(autoincrement())
   userType  Role     @map(name: "user_type")
   createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  updatedAt DateTime @default(now()) @updatedAt @map(name: "updated_at")
   userId    String   @map(name: "user_id")
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -90,66 +91,194 @@ model JobPool {
   name       String
   key        String
   createdAt  DateTime    @default(now()) @map(name: "created_at")
-  updatedAt  DateTime    @updatedAt @map(name: "updated_at")
+  updatedAt  DateTime    @default(now()) @updatedAt @map(name: "updated_at")
   candidates Candidate[]
 
   @@map("job_pool")
 }
 
 model Candidate {
-  id              Int      @id @default(autoincrement())
-  candidateId     String   @default(uuid()) @map(name: "candidate_id")
-  name            String
-  jobTitle        String   @map(name: "job_title")
-  email           String   @unique
-  phone           String?
-  currentLocation String?  @map(name: "current_location")
-  desiredLocation String[] @map(name: "desired_location")
-  currentSalary   String?  @map(name: "current_salary") // Yearly, base starts with 1,00,000 and gets random till 9,99,99,999
-  totalExperience Int      @map(name: "total_experience") // Monthly, base with 0 and gets random till 360
-  workExperience  Json?    @map(name: "work_experience")
-  education       Json?
-  skills          String[]
-  noticePeriod    Int?     @map(name: "notice_period") // base with 0 and gets random till 90
-  jobPoolId       Int?     @map(name: "job_pool_id")
-  createdAt       DateTime @default(now()) @map(name: "created_at")
-  updatedAt       DateTime @default(now()) @updatedAt @map(name: "updated_at")
-  jobPool         JobPool? @relation(fields: [jobPoolId], references: [id])
+  id               Int                               @id @default(autoincrement())
+  candidateId      String                            @map(name: "candidate_id")
+  fullName         String                            @map(name: "full_name")
+  firstName        String                            @map(name: "first_name")
+  middleInitial    String?                           @map(name: "middle_initial")
+  middleName       String?                           @map(name: "middle_name")
+  lastInitial      String?                           @map(name: "last_initial")
+  lastName         String?                           @map(name: "last_name")
+  birthYear        Int?                              @map(name: "birth_year")
+  birthDate        Int?                              @map(name: "birth_date")
+  gender           String?                           @map(name: "gender")
+  age              Int?                              @map(name: "age")
+  phone            String?
+  email            String                            @unique
+  jobTitle         String                            @map(name: "job_title")
+  summary          String?                           @map(name: "summary")
+  locationId       Int                               @map(name: "location_id")
+  county           String?                           @map(name: "county")
+  currentSalary    Int                               @map(name: "current_salary") // Yearly, base starts with 1,00,000 and gets random till 9,99,99,999
+  expectedSalary   Int?                              @map(name: "expected_salary") // Yearly, base starts with 1,00,000 and gets random till 9,99,99,999
+  totalExperience  Int                               @map(name: "total_experience") // Monthly, base with 0 and gets random till 360
+  languages        String[]
+  education        Json?
+  workExperience   Json?                             @map(name: "work_experience")
+  certifications   Json?
+  noticePeriod     Int?                              @map(name: "notice_period") // base with 0 and gets random till 90
+  jobPoolId        Int?                              @map(name: "job_pool_id")
+  createdAt        DateTime                          @default(now()) @map(name: "created_at")
+  updatedAt        DateTime                          @default(now()) @updatedAt @map(name: "updated_at")
+  jobPool          JobPool?                          @relation(fields: [jobPoolId], references: [id])
+  location         Location                          @relation(fields: [locationId], references: [id])
+  skills           CandidateSkillMapping[]
+  desiredLocations CandidateDesiredLocationMapping[]
 
+  @@index([candidateId])
   @@map("candidate")
 }
 
-// model ServiceDomain {
-//   id            Int             @id @default(autoincrement())
-//   name          String
-//   key           String
-//   createdAt     DateTime        @default(now()) @map(name: "created_at")
-//   updatedAt     DateTime        @updatedAt @map(name: "updated_at")
-//   skillCategory SkillCategory[]
+model CompanyInformation {
+  id                  Int                  @id @default(autoincrement())
+  name                String
+  about               String
+  address             String
+  expectedHiringCount Int                  @map(name: "expected_hiring_count")
+  companySize         Int                  @map(name: "company_size")
+  companyType         String               @map(name: "company_type")
+  industry            String?
+  domain              String?
+  website             String?
+  contactInfo         String?
+  linkedinLink        String?
+  twitterLink         String?
+  facebookLink        String?
+  createdAt           DateTime             @default(now()) @map(name: "created_at")
+  updatedAt           DateTime             @default(now()) @updatedAt @map(name: "updated_at")
+  createdBy           String               @map(name: "created_by")
+  updatedBy           String               @map(name: "updated_by")
+  recruiters          UserCompanyMapping[]
+  requests            CandidateRequest[]
 
-//   @@map("service_domain")
-// }
+  @@map("company_information")
+}
 
-// model SkillCategory {
-//   id              Int           @id @default(autoincrement())
-//   label           String
-//   key             String
-//   description     String
-//   createdAt       DateTime      @default(now()) @map(name: "created_at")
-//   updatedAt       DateTime      @updatedAt @map(name: "updated_at")
-//   serviceDomainId Int           @map(name: "service_domain_id")
-//   serviceDomain   ServiceDomain @relation(fields: [serviceDomainId], references: [id])
+// A company can have multiple users
 
-//   @@map("skill_category")
-// }
+model UserCompanyMapping {
+  companyId   Int
+  company     CompanyInformation @relation(fields: [companyId], references: [id])
+  currentRole String?
+  userId      String
+  user        User               @relation(fields: [userId], references: [id])
+  createdAt   DateTime           @default(now()) @map(name: "created_at")
+  updatedAt   DateTime           @default(now()) @updatedAt @map(name: "updated_at")
+  createdBy   String             @map(name: "created_by")
+  updatedBy   String             @map(name: "updated_by")
 
-// model Skill {
-//   id        Int      @id @default(autoincrement())
-//   label     String
-//   key       String
-//   tags      String[]
-//   createdAt DateTime @default(now()) @map(name: "created_at")
-//   updatedAt DateTime @updatedAt @map(name: "updated_at")
+  @@id([companyId, userId])
+  @@map("user_company_mapping")
+}
 
-//   @@map("skill")
-// }
+model CandidateRequest {
+  id                  Int                @id @default(autoincrement())
+  refId               String             @map(name: "ref_id")
+  jobTitle            String             @map(name: "job_title")
+  status              String
+  description         String
+  shortDescription    String             @map(name: "short_description")
+  roleCategory        String?            @map(name: "role_category") // EX:Software Development
+  industry            String? // EX:Management Consulting  
+  minExperience       Int
+  maxExperience       Int
+  minSalary           Int
+  maxSalary           Int
+  education           String?
+  availablePosition   Int
+  expectedJoiningDate String[]           @map(name: "expected_joining_date")
+  keySkills           String[]           @map(name: "key_skills")
+  optionalSkills      String[]           @map(name: "optional_skills")
+  jobLocation         String[]           @map(name: "job_location")
+  modeOfWork          String?            @map(name: "mode_of_work") //EX: Remote, Work From Office, Hybrid
+  jobType             String?            @map(name: "job_type") //EX: Fulltime, Permenant | Fulltime, Contract
+  employmentType      String?            @map(name: "employment_type") //EX: Fulltime | Parttime | Internship
+  functionalArea      String?            @map(name: "functional_area") //EX: Engineering QA, Enginerring Development
+  companyId           Int
+  companyInformation  CompanyInformation @relation(fields: [companyId], references: [id])
+  userId              String
+  user                User               @relation(fields: [userId], references: [id])
+  candidateTuning     CandidateTuning[]
+  createdAt           DateTime           @default(now()) @map(name: "created_at")
+  updatedAt           DateTime           @default(now()) @updatedAt @map(name: "updated_at")
+
+  @@map("candidate_request")
+}
+
+model CandidateTuning {
+  id                 Int              @id @default(autoincrement())
+  skillWeight        Int
+  experienceWeight   Int
+  salaryWeight       Int
+  locationWeight     Int
+  noticePeriodWeight Int
+  candidateRequestId Int
+  candidateRequest   CandidateRequest @relation(fields: [candidateRequestId], references: [id])
+  createdAt          DateTime         @default(now()) @map(name: "created_at")
+  updatedAt          DateTime         @default(now()) @updatedAt @map(name: "updated_at")
+
+  @@map("candidate_tuning")
+}
+
+model Skill {
+  id               Int                     @id @default(autoincrement())
+  label            String
+  value            String
+  category         String
+  isHotTech        Boolean                 @map(name: "is_hot_tech")
+  tags             String[]
+  createdAt        DateTime                @default(now()) @map(name: "created_at")
+  updatedAt        DateTime                @default(now()) @updatedAt @map(name: "updated_at")
+  candidateMapping CandidateSkillMapping[]
+
+  @@map("skill")
+}
+
+model Location {
+  id                Int                               @id @default(autoincrement())
+  city              String
+  cityValue         String                            @map(name: "city_value")
+  state             String
+  stateValue        String                            @map(name: "state_value")
+  createdAt         DateTime                          @default(now()) @map(name: "created_at")
+  updatedAt         DateTime                          @default(now()) @updatedAt @map(name: "updated_at")
+  candidatesMapping CandidateDesiredLocationMapping[]
+  Candidate         Candidate[]
+
+  @@map("location")
+}
+
+model CandidateSkillMapping {
+  candidateId Int       @map(name: "candidate_id")
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  skillId     Int       @map(name: "skill_id")
+  skill       Skill     @relation(fields: [skillId], references: [id])
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map(name: "updated_at")
+  createdBy   String    @map(name: "created_by")
+  updatedBy   String    @map(name: "updated_by")
+
+  @@id([candidateId, skillId])
+  @@map("candidate_skill_mapping")
+}
+
+model CandidateDesiredLocationMapping {
+  candidateId Int       @map(name: "candidate_id")
+  candidate   Candidate @relation(fields: [candidateId], references: [id])
+  locationId  Int       @map(name: "location_id")
+  location    Location  @relation(fields: [locationId], references: [id])
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @default(now()) @updatedAt @map(name: "updated_at")
+  createdBy   String    @map(name: "created_by")
+  updatedBy   String    @map(name: "updated_by")
+
+  @@id([candidateId, locationId])
+  @@map("candidate_desired_location_mapping")
+}

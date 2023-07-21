@@ -82,10 +82,10 @@ export const candidateSelectionTuning = [
 ];
 
 export const staticNoticePeriod = [
-	{ value: "0", label: "Immediate" },
-	{ value: "1", label: "1 Month" },
-	{ value: "2", label: "2 Months" },
-	{ value: "3", label: "3 Months" },
+	{ value: 0, label: "Immediate" },
+	{ value: 1, label: "1 Month" },
+	{ value: 2, label: "2 Months" },
+	{ value: 3, label: "3 Months" },
 ];
 
 export const companyTypeStatic = [

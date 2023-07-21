@@ -24,6 +24,10 @@ type CandidateRequestCreationPostBody = CandidateRequestForm & {
 	sessionId: string;
 };
 
+type CandidateMatchingRequestBody = {
+	requestId: string;
+};
+
 type FieldsForRating = Omit<CandidateRequestForm, "domain" | "industry" | "turn_around_time" | "required_profile">;
 
 type CandidateRatingFields = Array<keyof FieldsForRating>;

@@ -1,35 +1,18 @@
-import React from "react";
+import React, { FC, useReducer } from "react";
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import { Table } from "@mantine/core";
 import { candidateColumns } from "./CandidateTableConfig";
 import { Candidate } from "@prisma/client";
 
-const candidateData: Candidate = {
-	candidateId: "uuid-123123",
-	createdAt: new Date(),
-	updatedAt: new Date(),
-	currentLocation: "Chennai",
-	desiredLocation: ["Bangalore"],
-	currentSalary: "1750000",
-	education: [],
-	email: "shankaranarayannan.m.s@gmail.com",
-	jobTitle: "Technical Lead",
-	name: "Shankar Narayanan",
-	noticePeriod: 60,
-	phone: "8939358304",
-	skills: ["React", "Nodejs"],
-	totalExperience: 60,
-	workExperience: [],
-	id: 1,
-	jobPoolId: 2,
+type CandidateTableProps = {
+	candidates: Candidate[];
 };
 
-export const CandidateTable = () => {
-	const [data, setData] = React.useState(() => [candidateData]);
-	const rerender = React.useReducer(() => ({}), {})[1];
+export const CandidateTable: FC<CandidateTableProps> = (props) => {
+	// const rerender = useReducer(() => ({}), {})[1];
 
 	const table = useReactTable({
-		data,
+		data: props.candidates,
 		columns: candidateColumns,
 		getCoreRowModel: getCoreRowModel(),
 	});

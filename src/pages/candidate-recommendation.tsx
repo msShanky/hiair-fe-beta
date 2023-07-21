@@ -3,11 +3,7 @@ import { IconThumbUp, IconThumbDown } from "@tabler/icons-react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { OnBoardingLayout } from "@/components/layout";
-import {
-	useStoreUserSessionMutation,
-	useGetMatchingCandidateMutation,
-	useStoreUserFeedbackMutation,
-} from "@/reducer/hiairBaseApi";
+import { useGetMatchingCandidateMutation, useStoreUserFeedbackMutation } from "@/reducer/hiairBaseApi";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
 import {
@@ -20,6 +16,7 @@ import {
 import { Text, Title } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
 import { initiateUserRecommendation, trackCandidateSelection } from "@/reducer/userCandidateFeedback";
+import { Candidate } from "@prisma/client";
 
 const sidePrompt = { hidden: { opacity: 0, x: -1000 }, initial: { opacity: 1, x: 0 } };
 const sidePromptRight = { hidden: { opacity: 0, x: 1000 }, initial: { opacity: 1, x: 0 } };
@@ -41,11 +38,12 @@ const CandidateRecommendationPage: NextPage = () => {
 
 	const dataFetchedRef = useRef(false);
 
-	const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
-		fixedCacheKey: "user-session",
-		selectFromResult: (values) => values,
-	});
+	// const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
+	// 	fixedCacheKey: "user-session",
+	// 	selectFromResult: (values) => values,
+	// });
 
+	// TODO: Design the schema and store the data from recruiter feedback
 	const [postUserFeedback, userFeedbackResponse] = useStoreUserFeedbackMutation({
 		fixedCacheKey: "user-feedback",
 		selectFromResult: (values) => values,
@@ -69,25 +67,22 @@ const CandidateRecommendationPage: NextPage = () => {
 
 	// Use effect to fetch the candidate recommendation on load
 	useEffect(() => {
-		if (dataFetchedRef.current) return;
-		if (userSessionResponse.isUninitialized && userSession.sessionId !== "") {
-			postUserSession(userSession);
-			getMatchingCandidates({ sessionId: userSession.sessionId, ...userSession.candidateRequest });
-			dataFetchedRef.current = true;
-		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+		if (!router.query.requestId) return;
+		getMatchingCandidates({ requestId: router.query.requestId as string });
+	}, [router, getMatchingCandidates]);
 
 	// Use effect to handle user routing to onboarding page if there is no sessionId available
-	useEffect(() => {
-		if (!userSession.sessionId) {
-			router.push("/hiair-beta");
-		}
-	}, [userSession, router]);
+	// useEffect(() => {
+	// 	if (!userSession.sessionId) {
+	// 		console.log("No use session found ++")
+	// 		// router.push("/hiair-beta");
+	// 	}
+	// }, [userSession, router]);
 
 	// Use effect to set the active candidate when the data is available from the api
 	useEffect(() => {
 		if (candidatesResponse?.data && activeIndex < candidatesResponse?.result_count) {
+			// @ts-ignore
 			const _activeCandidate = candidatesResponse?.data[activeIndex];
 			setActiveCandidate(_activeCandidate);
 		}
@@ -101,7 +96,7 @@ const CandidateRecommendationPage: NextPage = () => {
 			dispatch(initiateUserRecommendation({ sessionId, userId }));
 		}
 
-		setSelectedCandidate({ candidateId: activeCandidate.user_id, candidateSelection: isSelected });
+		setSelectedCandidate({ candidateId: activeCandidate.candidateId, candidateSelection: isSelected });
 
 		if (candidatesResponse?.result_count && activeIndex < candidatesResponse?.result_count) {
 			setActiveIndex(activeIndex + 1);
@@ -184,7 +179,7 @@ const CandidateRecommendationPage: NextPage = () => {
 							<AnimatePresence>
 								{activeCandidate && (
 									<CandidateListCard
-										key={`candidate_card_${activeCandidate._id}`}
+										key={`candidate_card_${activeCandidate.candidateId}`}
 										handleDragState={(value) => setDraggedState(value)}
 										candidate={activeCandidate}
 										handleCandidateSelection={(state) => handleCandidateSelection(state)}
