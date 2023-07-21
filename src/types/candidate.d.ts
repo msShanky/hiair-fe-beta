@@ -39,3 +39,9 @@ type CandidateSelection = {
 	candidateSelection: boolean;
 	candidateRating?: CandidateRatingForm;
 };
+
+type CandidateWithRelation = import("@prisma/client").Candidate & {
+	location?: import("@prisma/client").Location;
+	desiredLocations?: Array<import("@prisma/client").Location>;
+	skills?: Array<import("@prisma/client").Skill>;
+};

@@ -146,7 +146,9 @@ const CandidateRecommendationPage: NextPage = () => {
 								return (
 									<UserInputDisplay
 										key={`candidate_request_${candidateKey}`}
+										// @ts-ignore
 										candidateKey={candidateKey as keyof typeof candidateRequest}
+										// @ts-ignore
 										candidateRequest={candidateRequest}
 									/>
 								);

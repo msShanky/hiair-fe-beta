@@ -3,7 +3,6 @@ import { Anchor, Button, Checkbox, Divider, Group, PaperProps, Stack } from "@ma
 import { Paper, PasswordInput, Text, TextInput } from "@mantine/core";
 import { upperFirst, useToggle } from "@mantine/hooks";
 import { useForm } from "@mantine/form";
-import { signInWithEmail, signUpWithEmail } from "../../../lib/auth-helpers";
 
 type AuthFormProps = {
 	paperProps?: PaperProps;
@@ -34,19 +33,6 @@ export const AuthForm: FunctionComponent<AuthFormProps> = (props) => {
 	const handleFormSubmit = async (formValues: AuthFormInitialType) => {
 		const { email, password } = formValues;
 		setLoading(true);
-		if (type === "login") {
-			const { error } = await signInWithEmail({ email, password });
-			if (error) {
-				setLoading(false);
-				setError(error.message);
-			}
-			return;
-		}
-		const { error } = await signUpWithEmail(formValues);
-		if (error) {
-			setLoading(false);
-			setError(error.message);
-		}
 	};
 
 	return (

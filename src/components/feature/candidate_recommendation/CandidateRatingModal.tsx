@@ -6,7 +6,7 @@ import { useForm } from "@mantine/form";
 type CandidateRatingModalProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	candidate: Candidate;
+	candidate: CandidateWithRelation;
 	handleRatingsSubmit: (formValues: CandidateRatingForm) => void;
 };
 
