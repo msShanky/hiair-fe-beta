@@ -48,11 +48,6 @@ export const candidateColumns = [
 		cell: (info) => info.getValue(),
 		header: () => "Total Experience",
 	}),
-	candidateColumnHelper.accessor((row) => row.skills, {
-		id: "skills",
-		cell: (info) => info.getValue().length,
-		header: () => "Skills",
-	}),
 	candidateColumnHelper.accessor((row) => row.noticePeriod, {
 		id: "noticePeriod",
 		cell: (info) => info.getValue(),

@@ -5,7 +5,7 @@ import { motion, useMotionValue, useAnimationControls } from "framer-motion";
 import { Candidate } from "@prisma/client";
 
 type CandidateListCardProps = {
-	candidate: Candidate;
+	candidate: CandidateWithRelation;
 	handleDragState: (state: boolean) => void;
 	handleCandidateSelection: (state: boolean) => void;
 	handleCandidateClick: () => void;
@@ -49,7 +49,7 @@ export const CandidateListCard = (props: CandidateListCardProps) => {
 			<Text className="font-sans text-lg font-light h-14 line-clamp-2">{summary}</Text>
 			<div className="flex items-center gap-4">
 				<IconMapPin />
-				<Text>{location ?? "NA"}</Text>
+				<Text>{`${location?.city ?? "NA"}, ${location?.state ?? "NA"}`}</Text>
 			</div>
 			<Divider className="w-full my-4 stroke-white" />
 			<div className="flex flex-row justify-between gap-6">

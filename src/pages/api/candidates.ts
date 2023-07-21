@@ -28,7 +28,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 			const { keySkills } = request;
 			const keysSkillSearch = keySkills.map((skill) => skill.toLowerCase().split(" ").join("-"));
-			const selectedCandidates = await prisma.candidate.findMany({ take: 15 });
+			const selectedCandidates = await prisma.candidate.findMany({
+				take: 15,
+				include: {
+					desiredLocations: true,
+					jobPool: true,
+					location: true,
+					skills: true,
+				},
+			});
 
 			res.status(200).json({ success: true, result_count: selectedCandidates.length, data: selectedCandidates });
 		} catch (err) {

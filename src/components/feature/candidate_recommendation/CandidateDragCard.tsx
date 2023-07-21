@@ -4,13 +4,12 @@ import { IconMapPin } from "@tabler/icons-react";
 import { motion, MotionStyle } from "framer-motion";
 
 type CandidateDragCardProps = {
-	candidate: Candidate;
+	candidate: CandidateWithRelation;
 	style: MotionStyle | undefined;
 };
 
 export const CandidateDragCard = (props: CandidateDragCardProps) => {
-	const { city, state, first_name, last_name, headline, current_ctc, total_experience, notice_period } =
-		props.candidate;
+	const { totalExperience, currentSalary, firstName, lastName, location, noticePeriod } = props.candidate;
 
 	return (
 		<motion.div
@@ -21,30 +20,27 @@ export const CandidateDragCard = (props: CandidateDragCardProps) => {
 			dragSnapToOrigin
 		>
 			<Title className="w-full h-20 text-3xl text-white line-clamp-2">
-				{first_name} {last_name}
+				{firstName} {lastName}
 			</Title>
-			<Text className="font-sans text-lg font-light h-14 line-clamp-2">{headline}</Text>
 			<div className="flex items-center gap-4">
 				<IconMapPin />
-				<Text>
-					{city ?? "NA"}, {state ?? "NA"}
-				</Text>
+				<Text>{`${location?.city}, ${location?.state}`}</Text>
 			</div>
 			<Divider className="w-full my-4 stroke-white" />
 			<div className="flex flex-row justify-between gap-6">
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">current ctc</Text>
-					<Text className="text-2xl font-thin">{current_ctc}</Text>
+					<Text className="text-2xl font-thin">{currentSalary}</Text>
 					<Text className="text-xs font-thin">lacks</Text>
 				</span>
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">experience</Text>
-					<Text className="text-2xl font-thin">{total_experience}</Text>
+					<Text className="text-2xl font-thin">{totalExperience}</Text>
 					<Text className="text-xs font-thin">years</Text>
 				</span>
 				<span className="flex flex-col gap-y-2">
 					<Text className="text-sm uppercase">notice period</Text>
-					<Text className="text-2xl font-thin">{notice_period}</Text>
+					<Text className="text-2xl font-thin">{noticePeriod}</Text>
 					<Text className="text-xs font-thin">months</Text>
 				</span>
 			</div>

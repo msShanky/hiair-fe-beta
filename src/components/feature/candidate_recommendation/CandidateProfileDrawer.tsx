@@ -4,26 +4,17 @@ import React from "react";
 type CandidateProfileDrawerProps = {
 	isOpen: boolean;
 	onClose: () => void;
-	candidate: Candidate;
+	candidate: CandidateWithRelation;
 };
 
 export const CandidateProfileDrawer = (props: CandidateProfileDrawerProps) => {
 	const { isOpen, onClose, candidate } = props;
 
-	const { full_name } = candidate;
+	const { fullName } = candidate;
 
 	return (
-		<Drawer
-			opened={isOpen}
-			onClose={onClose}
-			title="Candidate Profile"
-			padding="xl"
-			position="right"
-			size="60%"
-			overlayOpacity={0.55}
-			overlayBlur={3}
-		>
-			<Title>{full_name}</Title>
+		<Drawer opened={isOpen} onClose={onClose} title="Candidate Profile" padding="xl" position="right" size="60%">
+			<Title>{fullName}</Title>
 		</Drawer>
 	);
 };

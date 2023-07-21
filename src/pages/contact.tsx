@@ -7,9 +7,9 @@ const useStyles = createStyles((theme) => ({
 	wrapper: {
 		minHeight: 400,
 		boxSizing: "border-box",
-		padding: theme.spacing.xl * 2.5,
+		padding: theme.spacing.xl,
 		[`@media (max-width: ${theme.breakpoints.sm}px)`]: {
-			padding: theme.spacing.xl * 1.5,
+			padding: theme.spacing.xl,
 		},
 	},
 
