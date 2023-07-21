@@ -3,14 +3,24 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const hiairBaseApi = createApi({
 	reducerPath: "hiairBaseApi",
 	baseQuery: fetchBaseQuery({ baseUrl: "/api" }),
+	refetchOnFocus: true,
 	endpoints: (builder) => ({
 		getCandidateLocation: builder.query<CandidateLocationResponse, void>({
 			query: () => `candidate-location`,
 		}),
-		getCandidateSkills: builder.query<CandidateLocationResponse, void>({
-			query: () => `candidate-skills`,
+		getDashboard: builder.query<DashboardResponse, void>({
+			query: () => `/user/dashboard`,
 		}),
-		storeUserSession: builder.mutation<UserSessionCreateResponse, UserSessionStateType>({
+		getCandidateSkills: builder.query<CandidateSkillResponse, boolean>({
+			query: (isTech) => `candidate-skills?isTech=${isTech}`,
+		}),
+		getCandidates: builder.query<CandidateResponse, number>({
+			query: (pageNumber) => `candidates?page=${pageNumber}`,
+		}),
+		getCompanyInformationForUser: builder.query<CompanyResponse, void>({
+			query: () => `/user/company-list`,
+		}),
+		storeUserSession: builder.mutation<SessionResponse, UserSessionStateType>({
 			query: (postBody) => ({
 				url: "user-session",
 				method: "POST",
@@ -24,7 +34,7 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
-		getMatchingCandidate: builder.mutation<CandidateResponse, CandidateRequestCreationPostBody>({
+		getMatchingCandidate: builder.mutation<CandidateResponse, CandidateMatchingRequestBody>({
 			query: (postBody) => ({
 				url: "candidates",
 				method: "POST",
@@ -40,4 +50,7 @@ export const {
 	useStoreUserSessionMutation,
 	useStoreUserFeedbackMutation,
 	useGetMatchingCandidateMutation,
+	useGetCandidatesQuery,
+	useGetDashboardQuery,
+	useGetCompanyInformationForUserQuery,
 } = hiairBaseApi;

@@ -5,7 +5,7 @@ type AppHeaderProps = {};
 
 const AppHeader: FunctionComponent<AppHeaderProps> = (props) => {
 	return (
-		<nav className="w-full mx-auto h-20">
+		<nav className="w-full h-20 mx-auto">
 			<AppNavigation />
 		</nav>
 	);

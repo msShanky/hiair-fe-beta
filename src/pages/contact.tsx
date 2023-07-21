@@ -1,7 +1,7 @@
 import { AppLayout } from "@/components/layout";
 import { createStyles, Text, Title, SimpleGrid, TextInput, Textarea, Button, Group, ActionIcon } from "@mantine/core";
 import Head from "next/head";
-import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from "@tabler/icons";
+import { IconBrandTwitter, IconBrandYoutube, IconBrandInstagram } from "@tabler/icons-react";
 
 const useStyles = createStyles((theme) => ({
 	wrapper: {

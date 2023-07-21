@@ -1,6 +1,6 @@
 import React from "react";
 import { Divider, Text, Title } from "@mantine/core";
-import { IconMapPin } from "@tabler/icons";
+import { IconMapPin } from "@tabler/icons-react";
 import { motion, MotionStyle } from "framer-motion";
 
 type CandidateDragCardProps = {

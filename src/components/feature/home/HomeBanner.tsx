@@ -1,12 +1,14 @@
 import React from "react";
-import { Button, Mark, Text, Title } from "@mantine/core";
-import { useRouter } from "next/router";
+import { Mark, Text, Title } from "@mantine/core";
 import Lottie from "react-lottie";
 import * as selectionAnimation from "helpers/animations/selection-list-clients.json";
+import Link from "next/link";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export const HomeBanner = () => {
+	const session = useSession();
 	const router = useRouter();
-
 	const defaultOptions = {
 		loop: true,
 		autoplay: true,
@@ -14,6 +16,14 @@ export const HomeBanner = () => {
 		rendererSettings: {
 			preserveAspectRatio: "xMidYMid slice",
 		},
+	};
+
+	const handleUserTry = () => {
+		if (session.data) {
+			router.push("/hiair-beta");
+		} else {
+			signIn(undefined, { callbackUrl: "/hiair-beta" });
+		}
 	};
 
 	return (
@@ -26,13 +36,16 @@ export const HomeBanner = () => {
 							Hiairing!
 						</Mark>
 					</Title>
-					<Text className="text-white">Harness the power of AI & Machine learning in recruitment</Text>
-					<Button
-						onClick={() => router.push("/onboarding")}
-						className="w-40 text-white bg-primaryAlt hover:bg-secondaryBlue"
+					<Text className="text-2xl text-primary dark:text-secondaryBlue">
+						Harness the power of AI & Machine learning in recruitment
+					</Text>
+					<button
+						onClick={handleUserTry}
+						className="flex flex-col items-center justify-center w-4/12 p-4 transition duration-300 rounded-md group bg-secondaryYellow hover:cursor-pointer"
 					>
-						Try Now!
-					</Button>
+						<Text className="text-xl text-center text-black">Try Now!</Text>
+						<span className="block h-1 transition-all duration-500 rounded-full max-w-0 group-hover:max-w-full group-hover:w-6/12 bg-primaryAlt"></span>
+					</button>
 				</div>
 				<div className="flex justify-center w-3/6">
 					<Lottie options={defaultOptions} height={650} width={650} />
@@ -41,5 +54,3 @@ export const HomeBanner = () => {
 		</section>
 	);
 };
-
-

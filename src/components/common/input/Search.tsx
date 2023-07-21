@@ -1,6 +1,6 @@
 import { ActionIcon, TextInput } from "@mantine/core";
 import React from "react";
-import { IconArrowRight, IconSearch } from "@tabler/icons";
+import { IconArrowRight, IconSearch } from "@tabler/icons-react";
 
 const SearchInput = () => {
 	return (

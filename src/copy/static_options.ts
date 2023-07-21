@@ -26,15 +26,17 @@ export const staticExperience = [
 ];
 
 export const staticLocation = [
-	{ value: "Chennai", label: "Chennai" },
-	{ value: "Bangalore", label: "Bangalore" },
-	{ value: "Delhi", label: "Delhi" },
-	{ value: "Mumbai", label: "Mumbai" },
-	{ value: "Hyderabad", label: "Hyderabad" },
-	{ value: "Ahmedabad", label: "Ahmedabad" },
-	{ value: "Kolkata", label: "Kolkata" },
-	{ value: "Pune", label: "Pune" },
-	{ value: "Jaipur", label: "Jaipur" },
+	{ value: "mumbai", label: "Mumbai" },
+	{ value: "bangalore", label: "Bangalore" },
+	{ value: "delhi-ncr", label: "Delhi/NCR" },
+	{ value: "gurgaon", label: "Gurgaon" },
+	{ value: "noida", label: "Noida" },
+	{ value: "chennai", label: "Chennai" },
+	{ value: "pune", label: "Pune" },
+	{ value: "hyderabad", label: "Hyderabad" },
+	{ value: "kolkata", label: "Kolkata" },
+	{ value: "ahmedabad", label: "Ahmedabad" },
+	{ value: "chandigarh", label: "Chandigarh" },
 ];
 
 export const staticSkills = [
@@ -74,22 +76,56 @@ export const candidateSelectionTuning = [
 		key: "location",
 	},
 	{
-		label: "Industry",
-		key: "industry",
-	},
-	{
-		label: "Domain",
-		key: "domain",
-	},
-	{
 		label: "Notice Period",
 		key: "notice_period",
 	},
 ];
 
 export const staticNoticePeriod = [
-	{ value: '0', label: "Immediate" },
-	{ value: '1', label: "1 Month" },
-	{ value: '2', label: "2 Months" },
-	{ value: '3', label: "3 Months" },
+	{ value: 0, label: "Immediate" },
+	{ value: 1, label: "1 Month" },
+	{ value: 2, label: "2 Months" },
+	{ value: 3, label: "3 Months" },
+];
+
+export const companyTypeStatic = [
+	{
+		label: "Corporate",
+		value: "corporate",
+	},
+	{
+		label: "Foreign MNC",
+		value: "foreign-mnc",
+	},
+	{
+		label: "Indian MNC",
+		value: "indian-mnc",
+	},
+	{
+		label: "Startup",
+		value: "startup",
+	},
+	{
+		label: "Government",
+		value: "government",
+	},
+];
+
+export const workModeStatic = [
+	{
+		label: "Work from office",
+		value: "work-from-office",
+	},
+	{
+		label: "Remote",
+		value: "remote",
+	},
+	{
+		label: "Hybrid",
+		value: "hybrid",
+	},
+	{
+		label: "Temp WFH",
+		value: "temp-wfh",
+	},
 ];

@@ -1,8 +1,6 @@
-import { model, models, Schema } from "mongoose";
-
 const MODEL_NAME = "hiair_candidate";
 
-const HiairCandidateSchema = new Schema({
+const HiairCandidateSchema = {
 	first_name: String,
 	last_name: String,
 	full_name: String,
@@ -19,9 +17,4 @@ const HiairCandidateSchema = new Schema({
 	total_experience: Number,
 	notice_period: Number,
 	current_ctc: Number,
-});
-
-// export default mongoose.models.HiairCandidate || mongoose.model("hiair_candidate", HiairCandidate);
-
-const HiairCandidateModel = models[MODEL_NAME] || model(MODEL_NAME, HiairCandidateSchema);
-export default HiairCandidateModel;
+};

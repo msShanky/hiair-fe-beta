@@ -1,17 +1,17 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-// import { supabaseClient } from "@supabase/auth-helpers-nextjs";
-// import { definitions } from "../../types/supabase";
-import { dbConnect } from "lib";
-import HiairCandidate from "models/Candidates";
+import prisma from "@/lib/prisma";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-	await dbConnect();
-
 	if (req.method === "GET") {
+		const perPage = 500;
 		try {
-			const candidatesList = await HiairCandidate.find({});
-			res.status(200).json({ success: true, data: candidatesList });
+			const { page } = req.query;
+			const candidates = await prisma.candidate.findMany({
+				skip: perPage > 2 ? perPage * parseInt(page as string) ?? 1 : 0,
+				take: perPage,
+			});
+			res.status(200).json({ success: true, data: candidates });
 		} catch (err) {
 			res.status(400).json({ success: false, data: JSON.stringify(err) });
 		}
@@ -19,31 +19,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
 	if (req.method === "POST") {
 		try {
-			const body: CandidateRequestCreationPostBody = req.body;
-			const experienceRange = body.experience?.split("-");
-			const andConditions = [];
-
-			if (experienceRange) {
-				const [min, max] = experienceRange;
-				andConditions.push({ total_experience: { $lt: max } });
-				andConditions.push({ total_experience: { $gt: min } });
-			}
-
-			if (body.salary_range) {
-				const [min, max] = body.salary_range;
-				andConditions.push({ current_ctc: { $lt: max } });
-				andConditions.push({ current_ctc: { $gt: min } });
-			}
-
-			const filteredCandidates = await HiairCandidate.find({
-				$and: andConditions,
-				$or: [
-					{ skills: { $in: body.skill_set } },
-					{ city: { $in: body.job_location } },
-					{ notice_period: { $in: body.notice_period } },
-				],
+			const body: CandidateMatchingRequestBody = req.body;
+			const request = await prisma.candidateRequest.findFirstOrThrow({
+				where: {
+					refId: body.requestId,
+				},
 			});
-			res.status(200).json({ success: true, result_count: filteredCandidates.length, data: filteredCandidates });
+
+			const { keySkills } = request;
+			const keysSkillSearch = keySkills.map((skill) => skill.toLowerCase().split(" ").join("-"));
+			const selectedCandidates = await prisma.candidate.findMany({ take: 15 });
+
+			res.status(200).json({ success: true, result_count: selectedCandidates.length, data: selectedCandidates });
 		} catch (err) {
 			res.status(400).json({ success: false, error: JSON.stringify(err) });
 		}

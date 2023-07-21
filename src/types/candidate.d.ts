@@ -17,13 +17,15 @@ type CandidateTuningForm = {
 	experience: number;
 	salary: number;
 	location: number;
-	industry: number;
-	domain: number;
 	notice_period: number;
 };
 
 type CandidateRequestCreationPostBody = CandidateRequestForm & {
 	sessionId: string;
+};
+
+type CandidateMatchingRequestBody = {
+	requestId: string;
 };
 
 type FieldsForRating = Omit<CandidateRequestForm, "domain" | "industry" | "turn_around_time" | "required_profile">;
