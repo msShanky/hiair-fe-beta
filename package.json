@@ -40,6 +40,7 @@
 		"server-only": "^0.0.1"
 	},
 	"devDependencies": {
+		"@netlify/plugin-nextjs": "4.36.1",
 		"@tailwindcss/line-clamp": "^0.4.2",
 		"@types/node": "^20.4.1",
 		"@types/react": "^18.2.14",
