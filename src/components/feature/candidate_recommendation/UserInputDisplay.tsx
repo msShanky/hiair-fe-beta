@@ -32,7 +32,7 @@ const getFormattedSuffix = (key: keyof CandidateRequestForm, value?: any) => {
 
 export const UserInputDisplay = (props: UserInputDisplayProps) => {
 	const { candidateRequest, candidateKey } = props;
-
+	// console.log("Candidate request ==> ", candidateRequest);
 	const fieldValues = candidateRequest[candidateKey as keyof typeof candidateRequest];
 	const isArray = Array.isArray(fieldValues);
 
@@ -44,6 +44,7 @@ export const UserInputDisplay = (props: UserInputDisplayProps) => {
 			<div className="flex flex-wrap gap-4">
 				{isArray ? (
 					fieldValues.map((value, index) => {
+						if (typeof value === "object") return;
 						const uniqueValue = `${value}_${(index + 5) * 44}`;
 						return (
 							<Badge key={uniqueValue}>

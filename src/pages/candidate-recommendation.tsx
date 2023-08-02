@@ -3,7 +3,11 @@ import { IconThumbUp, IconThumbDown } from "@tabler/icons-react";
 import type { NextPage } from "next";
 import Head from "next/head";
 import { OnBoardingLayout } from "@/components/layout";
-import { useGetMatchingCandidateMutation, useStoreUserFeedbackMutation } from "@/reducer/hiairBaseApi";
+import {
+	useGetMatchingCandidateMutation,
+	useStoreUserFeedbackMutation,
+	useLazyGetCandidateRequestQuery,
+} from "@/reducer/hiairBaseApi";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
 import {
@@ -18,8 +22,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { initiateUserRecommendation, trackCandidateSelection } from "@/reducer/userCandidateFeedback";
 import { Candidate } from "@prisma/client";
 
-const sidePrompt = { hidden: { opacity: 0, x: -1000 }, initial: { opacity: 1, x: 0 } };
-const sidePromptRight = { hidden: { opacity: 0, x: 1000 }, initial: { opacity: 1, x: 0 } };
+const sidePrompt = { hidden: { opacity: 0, x: -800 }, initial: { opacity: 1, x: 0 } };
+const sidePromptRight = { hidden: { opacity: 0, x: 800 }, initial: { opacity: 1, x: 0 } };
 
 const SESSION_COMPLETION_THRESHOLD = 5;
 
@@ -49,12 +53,14 @@ const CandidateRecommendationPage: NextPage = () => {
 		selectFromResult: (values) => values,
 	});
 
+	const [getCandidateRequest, { data: candidateRequest }] = useLazyGetCandidateRequestQuery();
+
 	const [getMatchingCandidates, { data: candidatesResponse }] = useGetMatchingCandidateMutation({
 		fixedCacheKey: "candidates-matching",
 		selectFromResult: (values) => values,
 	});
 
-	const { candidateRequest, sessionId, userId } = userSession;
+	const { sessionId, userId } = userSession;
 	const { sessionId: feedbackSessionId, userId: feedbackUserId, candidateFeedback } = userFeedback;
 	const { isLoading, isSuccess } = userFeedbackResponse;
 
@@ -69,15 +75,11 @@ const CandidateRecommendationPage: NextPage = () => {
 	useEffect(() => {
 		if (!router.query.requestId) return;
 		getMatchingCandidates({ requestId: router.query.requestId as string });
-	}, [router, getMatchingCandidates]);
+		getCandidateRequest(router.query.requestId as string);
+	}, [router, getMatchingCandidates, getCandidateRequest]);
 
-	// Use effect to handle user routing to onboarding page if there is no sessionId available
-	// useEffect(() => {
-	// 	if (!userSession.sessionId) {
-	// 		console.log("No use session found ++")
-	// 		// router.push("/hiair-beta");
-	// 	}
-	// }, [userSession, router]);
+
+	console.log("The candidate request from API ==> ", candidateRequest);
 
 	// Use effect to set the active candidate when the data is available from the api
 	useEffect(() => {
@@ -142,17 +144,18 @@ const CandidateRecommendationPage: NextPage = () => {
 					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin relative">
 						<Title className="text-2xl text-primary dark:text-secondaryYellow">Candidate Request</Title>
 						<div className="flex flex-row flex-wrap mt-4 gap-y-8 gap-x-20">
-							{Object.keys(candidateRequest).map((candidateKey) => {
-								return (
-									<UserInputDisplay
-										key={`candidate_request_${candidateKey}`}
-										// @ts-ignore
-										candidateKey={candidateKey as keyof typeof candidateRequest}
-										// @ts-ignore
-										candidateRequest={candidateRequest}
-									/>
-								);
-							})}
+							{candidateRequest &&
+								Object.keys(candidateRequest).map((candidateKey) => {
+									return (
+										<UserInputDisplay
+											key={`candidate_request_${candidateKey}`}
+											// @ts-ignore
+											candidateKey={candidateKey as keyof typeof candidateRequest}
+											// @ts-ignore
+											candidateRequest={candidateRequest}
+										/>
+									);
+								})}
 						</div>
 						{candidateFeedback.length >= sessionEndThreshold && (
 							<div className="flex justify-end w-full mt-10">
@@ -171,9 +174,9 @@ const CandidateRecommendationPage: NextPage = () => {
 						<motion.div
 							variants={sidePrompt}
 							animate={isDragged ? "initial" : "hidden"}
-							className="absolute inset-y-0 flex items-center h-full p-4 text-white -left-24"
+							className="absolute inset-y-0 flex items-center h-full p-4 text-white left-20"
 						>
-							<div className="flex items-center justify-center w-20 h-20 rounded-full bg-primaryAlt">
+							<div className="flex items-center justify-center w-20 h-20 rounded-full bg-success">
 								<IconThumbUp size={40} />
 							</div>
 						</motion.div>
@@ -208,7 +211,7 @@ const CandidateRecommendationPage: NextPage = () => {
 						<motion.div
 							variants={sidePromptRight}
 							animate={isDragged ? "initial" : "hidden"}
-							className="absolute inset-y-0 flex items-center h-full p-4 text-white -right-24"
+							className="absolute inset-y-0 flex items-center h-full p-4 text-white right-20"
 						>
 							<div className="flex items-center justify-center w-20 h-20 bg-red-400 rounded-full">
 								<IconThumbDown size={40} />

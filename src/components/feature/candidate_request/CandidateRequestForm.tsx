@@ -56,14 +56,14 @@ export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 			</div>
 			{/* </div> */}
 			<Group position="center" mt="xl">
-				<Button variant="default" type="button" className="text-white hover:text-black" onClick={prevStep}>
+				<Button variant="default" type="button" className="text-white hover:text-black bg-primaryAlt" onClick={prevStep}>
 					Back
 				</Button>
 				<Button
 					type="submit"
 					disabled={!form.isValid()}
 					className={
-						"text-black hover:text-secondaryYellow dark:hover:bg-primaryAlt active:text-secondaryYellow dark:text-white dark:hover:text-black bg-none hover:bg-black dark:bg-primary disabled:bg-slate-300 dark:disabled:bg-slate-300 dark:disabled:text-black disabled:hover:cursor-not-allowed hover:cursor-pointer"
+						"text-black bg-secondaryYellow hover:text-secondaryYellow dark:hover:bg-primaryAlt active:text-secondaryYellow dark:text-white dark:hover:text-black bg-none hover:bg-black dark:bg-primary disabled:bg-slate-300 dark:disabled:bg-slate-300 dark:disabled:text-black disabled:hover:cursor-not-allowed hover:cursor-pointer"
 					}
 				>
 					Next step

@@ -27,6 +27,12 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
+		getCandidateRequest: builder.query<CandidateRequestWithRelation, string>({
+			query: (requestId) => ({
+				url: `candidate-request?requestId=${requestId}`,
+				method: "GET",
+			}),
+		}),
 		storeUserFeedback: builder.mutation<UserFeedbackCreateResponse, UserCandidateFeedbackStateType>({
 			query: (postBody) => ({
 				url: "user-feedback",
@@ -53,4 +59,5 @@ export const {
 	useGetCandidatesQuery,
 	useGetDashboardQuery,
 	useGetCompanyInformationForUserQuery,
+	useLazyGetCandidateRequestQuery
 } = hiairBaseApi;

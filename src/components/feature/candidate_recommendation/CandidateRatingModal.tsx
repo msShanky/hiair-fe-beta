@@ -40,7 +40,7 @@ export const CandidateRatingModal = (props: CandidateRatingModalProps) => {
 	const handleFormSubmit = (values: CandidateRatingForm) => {
 		handleRatingsSubmit(values);
 		setTimeout(() => {
-			console.log(" ********* Ratings are destroyed now ********* ");
+			// console.log(" ********* Ratings are destroyed now ********* ");
 			form.reset();
 		}, 250);
 	};

@@ -44,15 +44,12 @@ const CandidateRequestPage: NextPage = () => {
 		try {
 			const sessionResponse = await postUserSession({ ...userSession, candidateSelectionTuning: values });
 			if (sessionResponse) {
-				console.log("The data received from the API");
 				// @ts-ignore
 				const { candidateRequest } = sessionResponse.data;
 				router.push(`/candidate-recommendation?requestId=${candidateRequest.refId}`);
 			}
 		} catch (error) {}
 	};
-
-	console.log("user session post call response => ", userSessionResponse);
 
 	// Step 1 Display on boarding steps
 	// Step 2 Collect company information

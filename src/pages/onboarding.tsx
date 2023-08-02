@@ -28,7 +28,6 @@ const OnBoardingPage: NextPage = () => {
 	}
 
 	const handleUserSelection = (cardType: string) => {
-		console.log("The user selected an input for the on boarding session => ", cardType);
 		mutate({ type: cardType });
 	};
 

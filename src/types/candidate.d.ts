@@ -40,8 +40,20 @@ type CandidateSelection = {
 	candidateRating?: CandidateRatingForm;
 };
 
+type DesiredLocationMapping = import("@prisma/client").CandidateDesiredLocationMapping & {
+	location: import("@prisma/client").Location;
+};
+
+type SkillMapping = import("@prisma/client").CandidateSkillMapping & {
+	skill: import("@prisma/client").Skill;
+};
+
 type CandidateWithRelation = import("@prisma/client").Candidate & {
 	location?: import("@prisma/client").Location;
-	desiredLocations?: Array<import("@prisma/client").Location>;
-	skills?: Array<import("@prisma/client").Skill>;
+	desiredLocations?: Array<DesiredLocationMapping>;
+	skills?: Array<SkillMapping>;
+};
+
+type CandidateRequestWithRelation = import("@prisma/client").CandidateRequest & {
+	candidateTuning: Array<import("@prisma/client").CandidateTuning>;
 };
