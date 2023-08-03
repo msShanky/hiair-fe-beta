@@ -45,8 +45,11 @@ export const CompanyHandler: FC<CompanyHandlerProps> = (props) => {
 	}
 
 	return (
-		<p className="">
-			List the available companies <button onClick={() => setCompanyCreation(true)}>Create new company</button>
-		</p>
+		<div className="flex flex-col items-center justify-center gap-6">
+			<p className="text-lg">List of available companies</p>
+			<button className="p-5 rounded-sm bg-secondaryYellow" onClick={() => setCompanyCreation(true)}>
+				Create new company
+			</button>
+		</div>
 	);
 };

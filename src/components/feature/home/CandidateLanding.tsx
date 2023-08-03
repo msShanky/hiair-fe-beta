@@ -1,6 +1,5 @@
 import React, { FC } from "react";
 import { Title } from "@mantine/core";
-import { Role } from "@prisma/client";
 
 type UserLandingProps = {};
 

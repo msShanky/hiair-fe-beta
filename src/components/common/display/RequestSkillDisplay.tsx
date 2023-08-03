@@ -1,13 +1,14 @@
 import React, { FC } from "react";
 import { Title, Badge } from "@mantine/core";
 import { upperFirst } from "@mantine/hooks";
+import { Skill } from "@prisma/client";
 
 type SkillDisplayProps = {
 	label: string;
-	value: Array<SkillMapping> | undefined;
+	value: Array<Skill> | undefined;
 };
 
-export const SkillDisplay: FC<SkillDisplayProps> = (props) => {
+export const RequestSkillDisplay: FC<SkillDisplayProps> = (props) => {
 	const { label, value } = props;
 
 	console.log("Skills ==> ", value);
@@ -18,16 +19,16 @@ export const SkillDisplay: FC<SkillDisplayProps> = (props) => {
 			</Title>
 			{value && (
 				<div className="flex flex-wrap w-full gap-4 mt-4">
-					{value.map((skillMapping) => {
+					{value.map((skill) => {
 						return (
 							<Badge
 								classNames={{
 									root: "bg-secondaryYellow px-4",
 									inner: "text-black",
 								}}
-								key={`${skillMapping.skillId}_${skillMapping.candidateId}`}
+								key={`${skill.id}_${skill.value}`}
 							>
-								{skillMapping.skill.label}
+								{skill.label}
 							</Badge>
 						);
 					})}

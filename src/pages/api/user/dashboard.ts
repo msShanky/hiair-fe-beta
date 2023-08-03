@@ -2,7 +2,6 @@
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../auth/[...nextauth]";
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "@/lib/prisma";
 import { getDashboardJobPool } from "helpers/api/recruiterDashboard";
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

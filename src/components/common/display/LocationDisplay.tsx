@@ -11,7 +11,7 @@ export const LocationDisplay: FC<LocationDisplayProps> = (props) => {
 	const { label, value } = props;
 
 	return (
-		<div className="flex flex-col w-full col-span-4">
+		<div className="flex flex-col w-full col-span-4 gap-y-2">
 			<Title className="text-base font-normal text-primary" order={4}>
 				{upperFirst(label)}
 			</Title>

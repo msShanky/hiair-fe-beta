@@ -16,6 +16,7 @@ import {
 	UserInputDisplay,
 	CandidateProfileDrawer,
 	CandidateRatingModal,
+	CandidateRequestInfo,
 } from "@/components/feature";
 import { Text, Title } from "@mantine/core";
 import { motion, AnimatePresence } from "framer-motion";
@@ -62,7 +63,7 @@ const CandidateRecommendationPage: NextPage = () => {
 
 	const { sessionId, userId } = userSession;
 	const { sessionId: feedbackSessionId, userId: feedbackUserId, candidateFeedback } = userFeedback;
-	const { isLoading, isSuccess } = userFeedbackResponse;
+	// const { isLoading, isSuccess } = userFeedbackResponse;
 
 	const availableCandidates = candidatesResponse?.result_count ?? 0;
 
@@ -77,9 +78,6 @@ const CandidateRecommendationPage: NextPage = () => {
 		getMatchingCandidates({ requestId: router.query.requestId as string });
 		getCandidateRequest(router.query.requestId as string);
 	}, [router, getMatchingCandidates, getCandidateRequest]);
-
-
-	console.log("The candidate request from API ==> ", candidateRequest);
 
 	// Use effect to set the active candidate when the data is available from the api
 	useEffect(() => {
@@ -141,10 +139,11 @@ const CandidateRecommendationPage: NextPage = () => {
 					<title>HiAir | Candidate Recommendation</title>
 				</Head>
 				<section className="container grid grid-cols-[40%_60%] mx-auto p-2">
-					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin relative">
+					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin relative scrollbar-none">
 						<Title className="text-2xl text-primary dark:text-secondaryYellow">Candidate Request</Title>
-						<div className="flex flex-row flex-wrap mt-4 gap-y-8 gap-x-20">
-							{candidateRequest &&
+						{/* <div className="flex flex-row flex-wrap mt-4 gap-y-8 gap-x-10"> */}
+						<CandidateRequestInfo candidateRequest={candidateRequest} />
+						{/* {candidateRequest &&
 								Object.keys(candidateRequest).map((candidateKey) => {
 									return (
 										<UserInputDisplay
@@ -155,8 +154,8 @@ const CandidateRecommendationPage: NextPage = () => {
 											candidateRequest={candidateRequest}
 										/>
 									);
-								})}
-						</div>
+								})} */}
+						{/* </div> */}
 						{candidateFeedback.length >= sessionEndThreshold && (
 							<div className="flex justify-end w-full mt-10">
 								<motion.button

@@ -2,7 +2,6 @@ import { Button, Divider, Text, Title } from "@mantine/core";
 import { IconMapPin } from "@tabler/icons-react";
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue, useAnimationControls } from "framer-motion";
-import { Candidate } from "@prisma/client";
 
 type CandidateListCardProps = {
 	candidate: CandidateWithRelation;
