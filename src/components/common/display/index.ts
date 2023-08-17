@@ -5,3 +5,4 @@ export * from "./BadgeDisplay";
 export * from "./RequestSkillDisplay";
 export * from "./RequestLocationDisplay";
 export * from "./TuningDisplay";
+export * from "./NoticePeriodDisplay";

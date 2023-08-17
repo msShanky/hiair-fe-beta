@@ -8,6 +8,7 @@ type CompanyHandlerProps = {
 	nextStep: () => void;
 };
 
+// TODO: Display the company list and manage the selection and creation of a new company
 export const CompanyHandler: FC<CompanyHandlerProps> = (props) => {
 	const { nextStep } = props;
 	const { data, isLoading } = useGetCompanyInformationForUserQuery();

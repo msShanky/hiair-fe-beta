@@ -57,3 +57,9 @@ type CandidateWithRelation = import("@prisma/client").Candidate & {
 type CandidateRequestWithRelation = import("@prisma/client").CandidateRequest & {
 	candidateTuning: Array<import("@prisma/client").CandidateTuning>;
 };
+
+type CandidateRequestResponse = CandidateRequestWithRelation & {
+	keySkillMapping: Array<import("@prisma/client").Skill>;
+	optionalSkillMapping: Array<import("@prisma/client").Skill>;
+	locationMapping: Array<import("@prisma/client").Location>;
+};

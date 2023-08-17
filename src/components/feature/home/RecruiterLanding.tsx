@@ -8,8 +8,6 @@ import { EmployeeSearch } from "@/components/common/loader";
 
 type RecruiterLandingProps = {};
 
-// TODO: Cancel the caching in the dashboard api call
-
 export const RecruiterLanding: FC<RecruiterLandingProps> = (props) => {
 	const router = useRouter();
 	const buttonBase = "text-black dark:hover:text-primary active:text-secondaryYellow bg-white hover:bg-primaryAlt";

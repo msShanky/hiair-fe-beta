@@ -13,7 +13,6 @@ import { useRouter } from "next/router";
 import {
 	CandidateListCard,
 	CandidateTrailCard,
-	UserInputDisplay,
 	CandidateProfileDrawer,
 	CandidateRatingModal,
 	CandidateRequestInfo,
@@ -41,7 +40,7 @@ const CandidateRecommendationPage: NextPage = () => {
 	const [selectedCandidate, setSelectedCandidate] = useState<CandidateSelection | null>(null);
 	const [activeCandidate, setActiveCandidate] = useState<Candidate | null>(null);
 
-	const dataFetchedRef = useRef(false);
+	// const dataFetchedRef = useRef(false);
 
 	// const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
 	// 	fixedCacheKey: "user-session",
@@ -64,6 +63,8 @@ const CandidateRecommendationPage: NextPage = () => {
 	const { sessionId, userId } = userSession;
 	const { sessionId: feedbackSessionId, userId: feedbackUserId, candidateFeedback } = userFeedback;
 	// const { isLoading, isSuccess } = userFeedbackResponse;
+
+	console.log("Candidates received ==> ", candidatesResponse);
 
 	const availableCandidates = candidatesResponse?.result_count ?? 0;
 
@@ -127,6 +128,7 @@ const CandidateRecommendationPage: NextPage = () => {
 	};
 
 	const completeSession = () => {
+		// TODO: Store the feedback data in the database
 		postUserFeedback(userFeedback).then(() => {
 			router.push("/session-complete");
 		});
@@ -141,21 +143,9 @@ const CandidateRecommendationPage: NextPage = () => {
 				<section className="container grid grid-cols-[40%_60%] mx-auto p-2">
 					<aside className=" h-[80vh] overflow-scroll scrollbar-thumb-indigo-400 scrollbar-thin relative scrollbar-none">
 						<Title className="text-2xl text-primary dark:text-secondaryYellow">Candidate Request</Title>
-						{/* <div className="flex flex-row flex-wrap mt-4 gap-y-8 gap-x-10"> */}
+						{/* TODO: Handle request edit */}
 						<CandidateRequestInfo candidateRequest={candidateRequest} />
-						{/* {candidateRequest &&
-								Object.keys(candidateRequest).map((candidateKey) => {
-									return (
-										<UserInputDisplay
-											key={`candidate_request_${candidateKey}`}
-											// @ts-ignore
-											candidateKey={candidateKey as keyof typeof candidateRequest}
-											// @ts-ignore
-											candidateRequest={candidateRequest}
-										/>
-									);
-								})} */}
-						{/* </div> */}
+						{/* TODO: Validate against the total required hiring count */}
 						{candidateFeedback.length >= sessionEndThreshold && (
 							<div className="flex justify-end w-full mt-10">
 								<motion.button
@@ -169,6 +159,7 @@ const CandidateRecommendationPage: NextPage = () => {
 							</div>
 						)}
 					</aside>
+					{/* TODO: Handle the no response scenario and display something else to advise recruiters to relax some options */}
 					<section className="relative">
 						<motion.div
 							variants={sidePrompt}

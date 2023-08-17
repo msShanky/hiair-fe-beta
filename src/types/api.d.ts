@@ -15,7 +15,18 @@ type SessionResponse = {
 	candidateRequest: import("@prisma/client").CandidateRequest;
 };
 
-type CandidateResponse = ApiResponse<import("@prisma/client").Candidate>;
+type CandidateWithScore = import("@prisma/client").Candidate & {
+	score: {
+		locationScore: number;
+		skillScore: number;
+		noticePeriodScore: number;
+		salaryScore: number;
+		experienceScore: number;
+	};
+};
+
+type CandidateMatchResponse = ApiResponse<CandidateWithScore>;
+
 type CompanyResponse = {
 	companies: Array<import("@prisma/client").CompanyInformation>;
 };

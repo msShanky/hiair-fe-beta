@@ -14,7 +14,7 @@ export const hiairBaseApi = createApi({
 		getCandidateSkills: builder.query<CandidateSkillResponse, boolean>({
 			query: (isTech) => `candidate-skills?isTech=${isTech}`,
 		}),
-		getCandidates: builder.query<CandidateResponse, number>({
+		getCandidates: builder.query<CandidateMatchResponse, number>({
 			query: (pageNumber) => `candidates?page=${pageNumber}`,
 		}),
 		getCompanyInformationForUser: builder.query<CompanyResponse, void>({
@@ -27,7 +27,7 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
-		getCandidateRequest: builder.query<CandidateRequestWithRelation, string>({
+		getCandidateRequest: builder.query<CandidateRequestResponse, string>({
 			query: (requestId) => ({
 				url: `candidate-request?requestId=${requestId}`,
 				method: "GET",
@@ -40,7 +40,7 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
-		getMatchingCandidate: builder.mutation<CandidateResponse, CandidateMatchingRequestBody>({
+		getMatchingCandidate: builder.mutation<CandidateMatchResponse, CandidateMatchingRequestBody>({
 			query: (postBody) => ({
 				url: "candidates",
 				method: "POST",

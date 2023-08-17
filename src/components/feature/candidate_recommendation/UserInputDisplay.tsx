@@ -32,7 +32,6 @@ const getFormattedSuffix = (key: keyof CandidateRequestForm, value?: any) => {
 
 export const UserInputDisplay = (props: UserInputDisplayProps) => {
 	const { candidateRequest, candidateKey } = props;
-	// console.log("Candidate request ==> ", candidateRequest);
 	const fieldValues = candidateRequest[candidateKey as keyof typeof candidateRequest];
 	const isArray = Array.isArray(fieldValues);
 

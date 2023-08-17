@@ -11,7 +11,6 @@ type SkillDisplayProps = {
 export const RequestSkillDisplay: FC<SkillDisplayProps> = (props) => {
 	const { label, value } = props;
 
-	console.log("Skills ==> ", value);
 	return (
 		<div className="flex flex-col w-full col-span-4 gap-y-2">
 			<Title className="text-base font-normal text-primary" order={4}>

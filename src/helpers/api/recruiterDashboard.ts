@@ -59,8 +59,6 @@ export const getDashboardJobPool = async () => {
 		},
 	});
 
-	// TODO: Use topSkillsCount to get the top 20 skills and include the skill information and add the count
-
 	const topLocationCount = await prisma.candidateDesiredLocationMapping.groupBy({
 		by: ["locationId"],
 		_count: {

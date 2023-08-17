@@ -2,7 +2,7 @@ import React from "react";
 import { Group, Text, TextInput, Select, NumberInput, Button, RangeSlider, Input } from "@mantine/core";
 import { workModeStatic } from "copy";
 import { useForm } from "@mantine/form";
-import { CustomNumberInput, CustomTextInput, LocationMultiSelect } from "@/components/common/form";
+import { CustomNumberInput, CustomTextInput, LocationMultiSelect, NoticePeriodMultiSelect } from "@/components/common/form";
 import { TechSkillsMultiSelect } from "@/components/common/form/TechSkillsMultiSelect";
 import { CustomRangeSlider } from "@/components/common/form/CustomRangeSlider";
 
@@ -12,6 +12,7 @@ type CandidateRequestFormProps = {
 	prevStep: () => void;
 };
 
+// DONE: Add notice period expectations from a recruiter
 export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 	const { handleFormSubmit, initialFormValues, prevStep } = props;
 	const form = useForm<CandidateRequest>({ initialValues: { ...initialFormValues }, validateInputOnBlur: true });
@@ -24,6 +25,12 @@ export const CandidateRequestForm = (props: CandidateRequestFormProps) => {
 				<CustomRangeSlider form={form} label="Experience" field="experience" />
 				<CustomRangeSlider form={form} label="Salary Range" field="salaryRange" />
 				<CustomNumberInput form={form} label="Available Position" field="availablePosition" placeholder="10" />
+				<NoticePeriodMultiSelect
+					form={form}
+					label="Expected Joining"
+					field="expectedJoiningDate"
+					placeHolder="Please select notice period you would best desire"
+				/>
 				<TechSkillsMultiSelect
 					form={form}
 					isTech

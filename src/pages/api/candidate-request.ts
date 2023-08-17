@@ -26,7 +26,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				},
 			});
 
-			const keySkills = await prisma.skill.findMany({
+			const keySkillMapping = await prisma.skill.findMany({
 				where: {
 					id: {
 						in: candidateRequest?.keySkills.map((skillId) => parseInt(skillId)),
@@ -34,7 +34,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				},
 			});
 
-			const optionalSkills = await prisma.skill.findMany({
+			const optionalSkillMapping = await prisma.skill.findMany({
 				where: {
 					id: {
 						in: candidateRequest?.optionalSkills.map((skillId) => parseInt(skillId)),
@@ -42,7 +42,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				},
 			});
 
-			const locations = await prisma.location.findMany({
+			const locationMapping = await prisma.location.findMany({
 				where: {
 					id: {
 						in: candidateRequest?.jobLocation.map((locationId) => parseInt(locationId)),
@@ -57,7 +57,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 				return;
 			}
 
-			res.status(200).json({ ...candidateRequest, keySkills, optionalSkills, locations });
+			res.status(200).json({ ...candidateRequest, keySkillMapping, optionalSkillMapping, locationMapping });
 			// res.status(201).json({ success: true, result_count: userSession.length, data: userSession });
 		} catch (err) {
 			res.status(400).json({ success: false, error: err });

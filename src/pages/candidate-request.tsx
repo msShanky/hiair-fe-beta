@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { NextPage } from "next";
 import { AppLayout } from "@/components/layout";
 import {
-	CompanyInformationForm,
 	CandidateTuning,
 	CandidateRequestForm,
 	PreviewJD,

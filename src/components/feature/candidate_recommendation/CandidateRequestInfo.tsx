@@ -1,20 +1,22 @@
 import React, { FC } from "react";
-import { Text, Tabs } from "@mantine/core";
+import { Text } from "@mantine/core";
 import {
 	BadgeDisplay,
+	NoticePeriodDisplay,
 	RequestLocationDisplay,
 	RequestSkillDisplay,
 	TextDisplay,
 	TuningDisplay,
 } from "@/components/common/display";
-import { IconClipboardData, IconSettings } from "@tabler/icons-react";
 
 type CandidateRequestInfoProps = {
-	candidateRequest: CandidateRequestWithRelation | undefined;
+	candidateRequest: CandidateRequestResponse | undefined;
 };
 
+// TODO: Add the notice period values in the view
 export const CandidateRequestInfo: FC<CandidateRequestInfoProps> = (props) => {
 	const { candidateRequest } = props;
+
 	if (!candidateRequest) {
 		return (
 			<div className="w-full px-8">
@@ -23,10 +25,12 @@ export const CandidateRequestInfo: FC<CandidateRequestInfoProps> = (props) => {
 		);
 	}
 
+	// console.log("The candidate request received from the API ==> ", candidateRequest);
+
 	const { refId, jobTitle, education, modeOfWork, status, createdAt } = candidateRequest;
-	const { availablePosition, maxExperience, minExperience, maxSalary, minSalary } = candidateRequest;
-	// @ts-ignore
-	const { keySkills, optionalSkills, locations, candidateTuning } = candidateRequest;
+	const { availablePosition, maxExperience, minExperience, maxSalary, minSalary, expectedJoiningDate } =
+		candidateRequest;
+	const { keySkillMapping, optionalSkillMapping, locationMapping, candidateTuning } = candidateRequest;
 
 	const { experienceWeight, locationWeight, noticePeriodWeight, salaryWeight, skillWeight } = candidateTuning[0];
 
@@ -43,12 +47,10 @@ export const CandidateRequestInfo: FC<CandidateRequestInfoProps> = (props) => {
 			<TextDisplay label="Available positions" value={availablePosition} />
 			<TextDisplay label="Education" value={education} />
 			<TextDisplay label="Created At" value={new Date(createdAt).toLocaleDateString()} />
-			{/* @ts-ignore */}
-			<RequestSkillDisplay label="Key Skills" value={keySkills} />
-			{/* @ts-ignore */}
-			<RequestSkillDisplay label="Optional Skills" value={optionalSkills} />
-			<RequestLocationDisplay label="Locations" value={locations} />
-
+			<RequestSkillDisplay label="Key Skills" value={keySkillMapping} />
+			<RequestSkillDisplay label="Optional Skills" value={optionalSkillMapping} />
+			<RequestLocationDisplay label="Locations" value={locationMapping} />
+			<NoticePeriodDisplay label="Notice period" value={expectedJoiningDate} />
 			<TuningDisplay label="Skill Weight" value={skillWeight} />
 			<TuningDisplay label="Salary Weight" value={salaryWeight} />
 			<TuningDisplay label="Notice period Weight" value={noticePeriodWeight} />

@@ -19,7 +19,7 @@ const MARKS = [
 export const TuningDisplay: FC<TuningDisplayProps> = (props) => {
 	const { label, value } = props;
 	return (
-		<div className="flex flex-col col-span-4 gap-y-2">
+		<div className="flex flex-col col-span-4 py-2 gap-y-2">
 			<Title className="text-base font-normal text-primary" order={4}>
 				{upperFirst(label)}
 			</Title>
