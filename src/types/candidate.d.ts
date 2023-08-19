@@ -54,6 +54,18 @@ type CandidateWithRelation = import("@prisma/client").Candidate & {
 	skills?: Array<SkillMapping>;
 };
 
+type CandidateScore = {
+	locationScore: number;
+	skillScore: number;
+	noticePeriodScore: number;
+	salaryScore: number;
+	experienceScore: number;
+};
+
+type CandidateWithScore = CandidateWithRelation & {
+	scores: CandidateScore;
+};
+
 type CandidateRequestWithRelation = import("@prisma/client").CandidateRequest & {
 	candidateTuning: Array<import("@prisma/client").CandidateTuning>;
 };

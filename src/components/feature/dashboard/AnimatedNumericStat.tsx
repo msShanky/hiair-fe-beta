@@ -1,20 +1,19 @@
 import React, { FC, useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { Badge } from "@tremor/react";
 
-const fiatCoins = ["BUSD", "USDT"];
+type AvailableStyleKeys = "default" | "candidate_card";
 
 type AnimatedNumericStateProps = {
 	value: number;
 	label: string;
-	type?: string;
+	type?: AvailableStyleKeys;
 };
 
 export const AnimatedNumericStat: FC<AnimatedNumericStateProps> = (props) => {
-	const { value = 0, label } = props;
+	const { value = 0, label, type = "default" } = props;
 	const count = useMotionValue(0);
 	const rounded = useTransform(count, (value) => {
-		return `${value.toFixed(0)}`;
+		return `${value.toFixed(0)} ${type === "candidate_card" && "%"}`;
 	});
 
 	useEffect(() => {
@@ -23,25 +22,27 @@ export const AnimatedNumericStat: FC<AnimatedNumericStateProps> = (props) => {
 	}, [value, count]);
 
 	const typeStyles = {
-		buy_count: "font-sans font-semibold text-emerald-800 md:text-9xl text-6xl",
-		balance: `text-red-600`,
-		profit: `text-emerald-500`,
-		buy_cancel: "text-red-600 md:text-xl text-lg",
+		candidate_card: `font-normal text-black dark:text-black text-xl`,
 		default: `font-normal text-primary-focus dark:text-black md:text-4xl text-2xl`,
 	};
 
-	if (!value)
+	const labelStyles = {
+		candidate_card: `text-xs text-black uppercase`,
+		default: `text-xs md:text-base text-primary dark:text-white`,
+	};
+
+	if (!value || value === 0)
 		return (
 			<div className="flex flex-col items-center gap-y-2 min-w-max">
-				<div className={`font-sans font-semibold bg-primary-focus w-10/12 h-12 animate animate-pulse rounded-lg`}></div>
-				<p className="w-10/12 h-4 rounded-lg bg-secondary animate animate-pulse">000</p>
+				<div className={typeStyles[type]}>0 %</div>
+				<p className={labelStyles[type]}>{label}</p>
 			</div>
 		);
 
 	return (
 		<div className="flex flex-col items-center gap-y-2 min-w-max">
-			<motion.h1 className={typeStyles.default}>{rounded}</motion.h1>
-			<p className="text-xs md:text-base text-primary dark:text-white">{label}</p>
+			<motion.h1 className={typeStyles[type]}>{rounded}</motion.h1>
+			<p className={labelStyles[type]}>{label}</p>
 		</div>
 	);
 };

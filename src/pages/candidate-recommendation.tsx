@@ -38,7 +38,7 @@ const CandidateRecommendationPage: NextPage = () => {
 	const [shouldOpenSideOverlay, setSideOverlayState] = useState(false);
 	const [shouldDisplayRatingOverlay, setRatingOverlayState] = useState(false);
 	const [selectedCandidate, setSelectedCandidate] = useState<CandidateSelection | null>(null);
-	const [activeCandidate, setActiveCandidate] = useState<Candidate | null>(null);
+	const [activeCandidate, setActiveCandidate] = useState<CandidateWithScore | null>(null);
 
 	// const dataFetchedRef = useRef(false);
 
@@ -164,7 +164,7 @@ const CandidateRecommendationPage: NextPage = () => {
 						<motion.div
 							variants={sidePrompt}
 							animate={isDragged ? "initial" : "hidden"}
-							className="absolute inset-y-0 flex items-center h-full p-4 text-white left-20"
+							className="absolute inset-y-0 flex items-center h-full p-4 text-white left-10"
 						>
 							<div className="flex items-center justify-center w-20 h-20 rounded-full bg-success">
 								<IconThumbUp size={40} />
@@ -201,7 +201,7 @@ const CandidateRecommendationPage: NextPage = () => {
 						<motion.div
 							variants={sidePromptRight}
 							animate={isDragged ? "initial" : "hidden"}
-							className="absolute inset-y-0 flex items-center h-full p-4 text-white right-20"
+							className="absolute inset-y-0 flex items-center h-full p-4 text-white right-10"
 						>
 							<div className="flex items-center justify-center w-20 h-20 bg-red-400 rounded-full">
 								<IconThumbDown size={40} />
@@ -222,6 +222,7 @@ const CandidateRecommendationPage: NextPage = () => {
 						isOpen={shouldOpenSideOverlay}
 						onClose={() => setSideOverlayState(false)}
 						candidate={activeCandidate}
+						candidateRequest={candidateRequest}
 					/>
 				)}
 			</>

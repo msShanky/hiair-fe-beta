@@ -15,16 +15,6 @@ type SessionResponse = {
 	candidateRequest: import("@prisma/client").CandidateRequest;
 };
 
-type CandidateWithScore = import("@prisma/client").Candidate & {
-	score: {
-		locationScore: number;
-		skillScore: number;
-		noticePeriodScore: number;
-		salaryScore: number;
-		experienceScore: number;
-	};
-};
-
 type CandidateMatchResponse = ApiResponse<CandidateWithScore>;
 
 type CompanyResponse = {

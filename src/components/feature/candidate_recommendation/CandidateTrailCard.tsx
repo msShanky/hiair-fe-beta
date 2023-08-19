@@ -9,11 +9,11 @@ type CandidateTrailCardProps = {
 
 export const CandidateTrailCard = (props: CandidateTrailCardProps) => {
 	const { index, color, count = 5 } = props;
-	const bottomValue = index + 9 - index * 2;
+	const bottomValue = index + 7 - index * 2;
 
 	return (
 		<div
-			className={`absolute flex flex-col items-center justify-center p-6 text-center text-white rounded-lg  drop-shadow-lg  w-96 h-[430px] hover:cursor-pointer gap-y-4`}
+			className={`absolute flex flex-col items-center justify-center p-6 text-center text-white rounded-lg  drop-shadow-lg  w-[490px] h-[430px] hover:cursor-pointer gap-y-4`}
 			style={{
 				bottom: `${bottomValue}rem`,
 				zIndex: count - index,

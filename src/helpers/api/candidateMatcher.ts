@@ -7,7 +7,6 @@ import {
 	getCandidateNoticeScore,
 	getCandidateSalaryScore,
 } from ".";
-// import { CandidateSkillMapping, Prisma } from "@prisma/client";
 
 export const getMatchingCandidates = async (requestId: string) => {
 	const request = await prisma.candidateRequest.findFirstOrThrow({
@@ -66,5 +65,24 @@ export const getMatchingCandidates = async (requestId: string) => {
 		return { ...candidate, scores: candidateScore };
 	});
 
-	return await Promise.all(candidateWithScore);
+	const candidateRequest = request.candidateTuning[0];
+	const { salaryWeight, experienceWeight, locationWeight, noticePeriodWeight, skillWeight } = candidateRequest;
+
+	const sortedWeights = [
+		{ weight: salaryWeight, key: "salary" },
+		{ weight: experienceWeight, key: "experience" },
+		{ weight: locationWeight, key: "location" },
+		{ weight: noticePeriodWeight, key: "noticePeriod" },
+		{ weight: skillWeight, key: "skill" },
+	].sort((a, b) => b.weight - a.weight);
+
+	const candidateResponse = await Promise.all(candidateWithScore);
+
+	candidateResponse.sort((a, b) => {
+		const priorityKey = `${sortedWeights[0].key}Score`;
+		// @ts-ignore
+		return b.scores[priorityKey] - a.scores[priorityKey];
+	});
+
+	return candidateResponse;
 };

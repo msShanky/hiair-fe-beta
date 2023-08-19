@@ -5,10 +5,11 @@ import { upperFirst } from "@mantine/hooks";
 type LocationDisplayProps = {
 	label: string;
 	value: Array<DesiredLocationMapping> | undefined;
+	requestedLocations?: Array<string>;
 };
 
 export const LocationDisplay: FC<LocationDisplayProps> = (props) => {
-	const { label, value } = props;
+	const { label, value, requestedLocations } = props;
 
 	return (
 		<div className="flex flex-col w-full col-span-4 gap-y-2">
@@ -18,10 +19,11 @@ export const LocationDisplay: FC<LocationDisplayProps> = (props) => {
 			{value && (
 				<div className="flex flex-wrap w-full gap-4 mt-4">
 					{value.map((locationMapping) => {
+						const isMatch = requestedLocations?.includes(locationMapping.locationId.toString());
 						return (
 							<Badge
 								classNames={{
-									root: "bg-secondaryYellow px-4",
+									root: `${isMatch ? "bg-success" : "bg-secondaryYellow"} px-4`,
 									inner: "text-black",
 								}}
 								key={`${locationMapping.locationId}_${locationMapping.candidateId}`}
