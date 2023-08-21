@@ -1,7 +1,6 @@
 import { CompanyInformation as PrismaCompanyInformation } from "@prisma/client";
 import prisma from "./prisma";
 import { nanoid } from "@reduxjs/toolkit";
-import { use } from "react";
 
 const createCandidateRequest = async (companyId: number, userId: string, postBody: UserSessionStateType) => {
 	const { candidateRequest, candidateSelectionTuning } = postBody;

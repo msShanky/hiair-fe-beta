@@ -4,6 +4,10 @@ type ApiResponse<T> = {
 	data: T;
 };
 
+type UserWithRelation = import("@prisma/client").User & {
+	userProfile: Array<import("@prisma/client").UserProfile>;
+};
+
 type CandidateLocationResponse = ApiResponse<Array<{ label: string; value: string }>>;
 
 type CandidateSkillResponse = ApiResponse<Array<{ label: string; value: string }>>;
@@ -17,9 +21,11 @@ type SessionResponse = {
 
 type CandidateMatchResponse = ApiResponse<CandidateWithScore>;
 
-type CompanyResponse = {
-	companies: Array<import("@prisma/client").CompanyInformation>;
+type UserCompanyMappingWithRelation = import("@prisma/client").UserCompanyMapping & {
+	company: import("@prisma/client").CompanyInformation;
 };
+
+type CompanyResponseList = Array<UserCompanyMappingWithRelation>;
 
 type UserFeedbackCreateResponse = ApiResponse<UserCandidateFeedbackStateType>;
 

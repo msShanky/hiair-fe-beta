@@ -40,8 +40,10 @@ export const RecruiterLanding: FC<RecruiterLandingProps> = (props) => {
 				</Button>
 			</div>
 			<section className="mt-10">
-				<Card className={`w-full border-none bg-primaryAlt ring-primary-focus dark:ring-primary-focus rounded-lg`}>
-					<Title className="pb-4 text-2xl text-primary dark:text-white">Job Pool Stats</Title>
+				<Card
+					className={`w-full border-none bg-primaryAlt dark:bg-secondaryYellow ring-primary-focus dark:ring-primary-focus rounded-lg`}
+				>
+					<Title className="pb-4 text-2xl text-primary dark:text-black">Job Pool Stats</Title>
 					<section className="flex flex-row flex-wrap items-center justify-between w-full gap-4 lg:grid-cols-8 md:items-end">
 						<AnimatedNumericStat key={"candidateCount"} value={candidateCount} label="Total Candidates" />
 						<AnimatedNumericStat
@@ -61,9 +63,9 @@ export const RecruiterLanding: FC<RecruiterLandingProps> = (props) => {
 					</section>
 				</Card>
 				<section className="flex w-full gap-4 mt-10 text-white">
-					<Card className="w-6/12 bg-primaryAlt">
-						<Title>Top Skills</Title>
-						<Flex className="mt-4">
+					<Card className="w-6/12 text-black bg-primaryAlt ring-0 dark:bg-gray-400">
+						<Title className="font-normal text-white dark:text-black">Top Skills</Title>
+						<Flex className="my-4">
 							<Text>
 								<Bold>Skill</Bold>
 							</Text>
@@ -78,8 +80,8 @@ export const RecruiterLanding: FC<RecruiterLandingProps> = (props) => {
 							})}
 						/>
 					</Card>
-					<Card className="w-6/12 bg-primaryAlt">
-						<Title>Top Locations</Title>
+					<Card className="w-6/12 bg-primaryAlt ring-0 dark:bg-gray-400">
+						<Title className="font-normal text-white dark:text-black">Top Locations</Title>
 						<BarChart
 							className="mt-6"
 							data={topLocations.map((location) => {

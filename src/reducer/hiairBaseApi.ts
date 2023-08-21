@@ -1,3 +1,4 @@
+import { CandidateRequest } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const hiairBaseApi = createApi({
@@ -17,7 +18,7 @@ export const hiairBaseApi = createApi({
 		getCandidates: builder.query<CandidateMatchResponse, number>({
 			query: (pageNumber) => `candidates?page=${pageNumber}`,
 		}),
-		getCompanyInformationForUser: builder.query<CompanyResponse, void>({
+		getCompanyInformationForUser: builder.query<CompanyResponseList, void>({
 			query: () => `/user/company-list`,
 		}),
 		storeUserSession: builder.mutation<SessionResponse, UserSessionStateType>({
@@ -27,9 +28,15 @@ export const hiairBaseApi = createApi({
 				body: postBody,
 			}),
 		}),
-		getCandidateRequest: builder.query<CandidateRequestResponse, string>({
+		getCandidateRequestByID: builder.query<CandidateRequestResponse, string>({
 			query: (requestId) => ({
 				url: `candidate-request?requestId=${requestId}`,
+				method: "GET",
+			}),
+		}),
+		getCandidateRequest: builder.query<Array<CandidateRequest>, void>({
+			query: () => ({
+				url: `candidate-request`,
 				method: "GET",
 			}),
 		}),
@@ -59,5 +66,6 @@ export const {
 	useGetCandidatesQuery,
 	useGetDashboardQuery,
 	useGetCompanyInformationForUserQuery,
-	useLazyGetCandidateRequestQuery
+	useLazyGetCandidateRequestByIDQuery,
+	useGetCandidateRequestQuery,
 } = hiairBaseApi;

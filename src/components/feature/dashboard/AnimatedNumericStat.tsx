@@ -13,7 +13,7 @@ export const AnimatedNumericStat: FC<AnimatedNumericStateProps> = (props) => {
 	const { value = 0, label, type = "default" } = props;
 	const count = useMotionValue(0);
 	const rounded = useTransform(count, (value) => {
-		return `${value.toFixed(0)} ${type === "candidate_card" && "%"}`;
+		return type === "candidate_card" ? `${value.toFixed(0)}%` : `${value.toFixed(0)}`;
 	});
 
 	useEffect(() => {
@@ -27,17 +27,18 @@ export const AnimatedNumericStat: FC<AnimatedNumericStateProps> = (props) => {
 	};
 
 	const labelStyles = {
-		candidate_card: `text-xs text-black uppercase`,
-		default: `text-xs md:text-base text-primary dark:text-white`,
+		candidate_card: `text-xs text-black dark:text-black uppercase`,
+		default: `text-xs md:text-base text-primary dark:text-black`,
 	};
 
-	if (!value || value === 0)
+	if (!value || value === 0) {
 		return (
 			<div className="flex flex-col items-center gap-y-2 min-w-max">
 				<div className={typeStyles[type]}>0 %</div>
 				<p className={labelStyles[type]}>{label}</p>
 			</div>
 		);
+	}
 
 	return (
 		<div className="flex flex-col items-center gap-y-2 min-w-max">

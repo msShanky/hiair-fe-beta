@@ -13,6 +13,7 @@ const initialState: UserSessionStateType = {
 		companyType: "",
 		companySize: 0,
 	},
+	companyId: null,
 	candidateRequest: {
 		jobTitle: "",
 		jobLocation: [],
@@ -41,6 +42,9 @@ export const userSlice = createSlice({
 		updateCompanyInfo: (state, { payload }: PayloadAction<CompanyInformationFormState>) => {
 			state.companyInfo = payload;
 		},
+		selectCompany: (state, { payload }: PayloadAction<number>) => {
+			state.companyId = payload;
+		},
 		createUserSession: (state, { payload }: PayloadAction<{ sessionId: string; userId: string }>) => {
 			state.sessionId = payload.sessionId;
 		},
@@ -65,7 +69,13 @@ export const userSlice = createSlice({
 
 const { actions, reducer } = userSlice;
 
-export const { updateCompanyInfo, createUserSession, updateCandidateRequest, updateCandidateTuning, resetUserSession } =
-	actions;
+export const {
+	updateCompanyInfo,
+	createUserSession,
+	updateCandidateRequest,
+	updateCandidateTuning,
+	resetUserSession,
+	selectCompany,
+} = actions;
 
 export default reducer;

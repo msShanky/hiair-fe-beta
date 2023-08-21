@@ -32,6 +32,7 @@ type CandidateRequest = {
 type UserSessionStateType = {
 	sessionId: string;
 	userId: string;
+	companyId: number | null;
 	companyInfo: CompanyInformationFormState;
 	candidateRequest: CandidateRequest;
 	candidateSelectionTuning: CandidateTuningForm;

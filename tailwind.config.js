@@ -1,17 +1,16 @@
 /** @type {import('tailwindcss').Config} */
-
 module.exports = {
+	darkMode: "class",
 	content: [
 		"./src/pages/**/*.{js,ts,jsx,tsx}",
 		"./src/components/**/*.{js,ts,jsx,tsx}",
-		"./node_modules/@tremor/**/*.{js,ts,jsx,tsx}", // Tremor module
+		"./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
 	],
 	theme: {
 		transparent: "transparent",
 		current: "currentColor",
 		extend: {
 			colors: {
-				// light mode
 				tremor: {
 					brand: {
 						faint: "#eff6ff", // blue-50
@@ -35,13 +34,12 @@ module.exports = {
 					},
 					content: {
 						subtle: "#9ca3af", // gray-400
-						DEFAULT: "#6b7280", // gray-500
+						DEFAULT: "#3b82f6", // gray-500
 						emphasis: "#374151", // gray-700
 						strong: "#111827", // gray-900
 						inverted: "#ffffff", // white
 					},
 				},
-				// dark mode
 				"dark-tremor": {
 					brand: {
 						faint: "#0B1229", // custom
@@ -52,7 +50,7 @@ module.exports = {
 						inverted: "#030712", // gray-950
 					},
 					background: {
-						muted: "#131A2B", // custom
+						muted: "#131A2Bfill-teal-500", // custom
 						subtle: "#1f2937", // gray-800
 						DEFAULT: "#111827", // gray-900
 						emphasis: "#d1d5db", // gray-300
@@ -65,7 +63,7 @@ module.exports = {
 					},
 					content: {
 						subtle: "#4b5563", // gray-600
-						DEFAULT: "#6b7280", // gray-600
+						DEFAULT: "#043873", // Primary brand color
 						emphasis: "#e5e7eb", // gray-200
 						strong: "#f9fafb", // gray-50
 						inverted: "#000000", // black
@@ -79,6 +77,9 @@ module.exports = {
 				shadeBlack: "#212529",
 				success: "#19D16F",
 				error: "#ff3900",
+			},
+			minWidth: {
+				14: "3.5rem",
 			},
 			boxShadow: {
 				// light
@@ -102,44 +103,44 @@ module.exports = {
 				"tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
 			},
 		},
-	},
-	safelist: [
-		{
-			pattern:
-				/^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-			variants: ["hover", "ui-selected"],
+		fontFamily: {
+			sans: ["Raleway", "sans-serif"],
 		},
-		{
-			pattern:
-				/^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-			variants: ["hover", "ui-selected"],
+		keyframes: {
+			wiggle: {
+				"0%, 100%": { transform: "rotate(-3deg)" },
+				"50%": { transform: "rotate(3deg)" },
+			},
 		},
-		{
-			pattern:
-				/^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-			variants: ["hover", "ui-selected"],
-		},
-		{
-			pattern:
-				/^(ring-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-		},
-		{
-			pattern:
-				/^(stroke-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-		},
-		{
-			pattern:
-				/^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
-		},
-	],
-	fontFamily: {
-		sans: ["Raleway", "sans-serif"],
-	},
-	keyframes: {
-		wiggle: {
-			"0%, 100%": { transform: "rotate(-3deg)" },
-			"50%": { transform: "rotate(3deg)" },
-		},
+		safelist: [
+			{
+				pattern:
+					/^(bg-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				variants: ["hover", "ui-selected"],
+			},
+			{
+				pattern:
+					/^(text-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				variants: ["hover", "ui-selected"],
+			},
+			{
+				pattern:
+					/^(border-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+				variants: ["hover", "ui-selected"],
+			},
+			{
+				pattern:
+					/^(ring-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			},
+			{
+				pattern:
+					/^(stroke-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			},
+			{
+				pattern:
+					/^(fill-(?:slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose)-(?:50|100|200|300|400|500|600|700|800|900|950))$/,
+			},
+		],
 	},
 	plugins: [require("@headlessui/tailwindcss"), require("tailwind-scrollbar")],
 };

@@ -26,3 +26,11 @@ a {
 .tremor-MarkerBar-marker {
 	@apply bg-primary ring-0;
 }
+
+.recharts-rectangle.fill-emerald-500 {
+	@apply fill-green-500;
+}
+
+.recharts-rectangle {
+	@apply fill-teal-500;
+}

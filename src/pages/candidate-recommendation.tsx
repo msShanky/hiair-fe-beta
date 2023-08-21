@@ -6,7 +6,7 @@ import { OnBoardingLayout } from "@/components/layout";
 import {
 	useGetMatchingCandidateMutation,
 	useStoreUserFeedbackMutation,
-	useLazyGetCandidateRequestQuery,
+	useLazyGetCandidateRequestByIDQuery,
 } from "@/reducer/hiairBaseApi";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { useRouter } from "next/router";
@@ -53,7 +53,7 @@ const CandidateRecommendationPage: NextPage = () => {
 		selectFromResult: (values) => values,
 	});
 
-	const [getCandidateRequest, { data: candidateRequest }] = useLazyGetCandidateRequestQuery();
+	const [getCandidateRequest, { data: candidateRequest }] = useLazyGetCandidateRequestByIDQuery();
 
 	const [getMatchingCandidates, { data: candidatesResponse }] = useGetMatchingCandidateMutation({
 		fixedCacheKey: "candidates-matching",

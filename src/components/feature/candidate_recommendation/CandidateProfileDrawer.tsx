@@ -1,3 +1,4 @@
+
 import { TextDisplay, SkillDisplay, LocationDisplay } from "@/components/common/display";
 import { Drawer, Title, Divider } from "@mantine/core";
 import { Card, Title as TremorTitle, BarChart, Subtitle } from "@tremor/react";
@@ -98,7 +99,7 @@ export const CandidateProfileDrawer = (props: CandidateProfileDrawerProps) => {
 							data={chartData}
 							index="name"
 							categories={["Tuning", "Match"]}
-							colors={["blue", "teal"]}
+							colors={["emerald", "teal"]}
 							yAxisWidth={48}
 						/>
 					</Card>

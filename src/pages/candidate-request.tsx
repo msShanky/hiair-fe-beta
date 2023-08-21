@@ -1,97 +1,36 @@
 import { useState } from "react";
 import type { NextPage } from "next";
 import { AppLayout } from "@/components/layout";
-import {
-	CandidateTuning,
-	CandidateRequestForm,
-	PreviewJD,
-	CompanyHandler,
-} from "@/components/feature/candidate_request";
-import { updateCandidateRequest, updateCandidateTuning, updateCompanyInfo } from "@/reducer/userSession";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { useRouter } from "next/router";
-import { Stepper } from "@mantine/core";
-import { useStoreUserSessionMutation } from "@/reducer/hiairBaseApi";
+import { CandidateRequestCreation, CandidateRequestListing } from "@/components/feature/candidate_request";
+import { Button } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 
 const CandidateRequestPage: NextPage = () => {
-	const router = useRouter();
-	const dispatch = useAppDispatch();
-	const userSession = useAppSelector((state) => state.userSession);
-	const [active, setActive] = useState(0);
-	const nextStep = () => setActive((current) => (current < 4 ? current + 1 : current));
-	const prevStep = () => setActive((current) => (current > 0 ? current - 1 : current));
-
-	const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
-		fixedCacheKey: "user-session",
-		selectFromResult: (values) => values,
-	});
-
-	const handleCandidateRequestCreation = (values: CandidateRequest) => {
-		// TODO: IF the session id is null then create a new session id
-		dispatch(updateCandidateRequest(values));
-		nextStep();
-	};
-
-	// const handleCompanyInformation = (values: CompanyInformationFormState) => {
-	// 	dispatch(updateCompanyInfo(values));
-	// 	nextStep();
-	// };
-
-	const handleCandidateTuning = async (values: CandidateTuningForm) => {
-		// TODO: IF the session id is null then create a new session id
-		dispatch(updateCandidateTuning(values));
-		try {
-			const sessionResponse = await postUserSession({ ...userSession, candidateSelectionTuning: values });
-			if (sessionResponse) {
-				// @ts-ignore
-				const { candidateRequest } = sessionResponse.data;
-				router.push(`/candidate-recommendation?requestId=${candidateRequest.refId}`);
-			}
-		} catch (error) {}
-	};
-
-	// Step 1 Display on boarding steps
-	// Step 2 Collect company information
-	// Step 3 Collect job description
-	// Step 4 Preview JD
-	// Step 5 Collect weights for recommendations
-	// Step 6 Navigate to recommendations
+	const [createRequest, shouldCreateRequest] = useState(false);
+	const buttonBase =
+		"dark:text-black group text-white dark:hover:text-primary hover:text-black active:text-secondaryYellow bg-primary dark:bg-primaryAlt hover:bg-secondaryYellow group";
 
 	return (
 		<AppLayout title="HiAir | Candidate Request">
-			<section>
-				<Stepper
-					active={active}
-					onStepClick={(index) => setActive(index)}
-					breakpoint="sm"
-					className="justify-center w-10/12 mx-auto"
-					classNames={{
-						stepLabel: "text-primaryAlt active:text-white",
-					}}
-				>
-					<Stepper.Step label="Company" description="About the company" className="text-white active:text-primaryAlt">
-						<CompanyHandler nextStep={nextStep} />
-					</Stepper.Step>
-					<Stepper.Step label="Job Description" description="About the job posting">
-						<CandidateRequestForm
-							initialFormValues={userSession.candidateRequest}
-							handleFormSubmit={handleCandidateRequestCreation}
-							prevStep={prevStep}
-						/>
-					</Stepper.Step>
-					<Stepper.Step label="Preview JD" description="View the JD for validation">
-						<PreviewJD prevStep={prevStep} nextStep={nextStep} />
-					</Stepper.Step>
-					<Stepper.Step label="Recommendation Tuning" description="Tune the config on the priority for each field">
-						<CandidateTuning
-							handleFormSubmit={handleCandidateTuning}
-							initialFormValues={userSession.candidateSelectionTuning}
-							prevStep={prevStep}
-						/>
-					</Stepper.Step>
-					<Stepper.Completed>Completed, click back button to get to previous step</Stepper.Completed>
-				</Stepper>
-			</section>
+			<>
+				{!createRequest && (
+					<div className="flex items-center justify-end h-16 px-4 mt-2 rounded-md bg-primaryAlt">
+						<Button
+							onClick={() => shouldCreateRequest(true)}
+							className={buttonBase}
+							classNames={{
+								label: "flex gap-2",
+							}}
+						>
+							<>
+								<IconPlus className="w-4 h-4 dark:stroke-black stroke-white group-hover:stroke-black" />
+								<p>Create Request</p>
+							</>
+						</Button>
+					</div>
+				)}
+				{createRequest ? <CandidateRequestCreation /> : <CandidateRequestListing />}
+			</>
 		</AppLayout>
 	);
 };

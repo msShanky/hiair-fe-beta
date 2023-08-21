@@ -68,6 +68,7 @@ type CandidateWithScore = CandidateWithRelation & {
 
 type CandidateRequestWithRelation = import("@prisma/client").CandidateRequest & {
 	candidateTuning: Array<import("@prisma/client").CandidateTuning>;
+	companyInformation?: import("@prisma/client").CompanyInformation;
 };
 
 type CandidateRequestResponse = CandidateRequestWithRelation & {

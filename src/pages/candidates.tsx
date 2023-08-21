@@ -5,11 +5,12 @@ import { useSession } from "next-auth/react";
 import { Button } from "@mantine/core";
 import { useRouter } from "next/router";
 import { CandidateTable } from "@/components/feature/candidates";
-import { IconUpload, IconX } from "@tabler/icons-react";
+import { IconArrowBarToLeft, IconUpload, IconX } from "@tabler/icons-react";
 import { DropzoneButton } from "@/components/common/input";
 import { useGetCandidatesQuery } from "@/reducer/hiairBaseApi";
 import { EmployeeSearch } from "@/components/common/loader";
 import { Candidate } from "@prisma/client";
+import Link from "next/link";
 
 const CandidatesPage: NextPage = () => {
 	const { data: session, status } = useSession();
@@ -37,7 +38,13 @@ const CandidatesPage: NextPage = () => {
 	return (
 		<AppLayout title="Hiair Beta | candidates">
 			<section className="flex flex-col mt-4 gap-y-4">
-				<div className="flex justify-end">
+				<div className="flex justify-between">
+					<Link href="/hiair-beta" passHref legacyBehavior={true}>
+						<div className="flex items-center justify-between w-24 px-4 rounded-lg select-none bg-secondaryYellow hover:cursor-pointer">
+							<IconArrowBarToLeft className="w-4 h-4 stroke-blue-600" />
+							<p>Back</p>
+						</div>
+					</Link>
 					<Button
 						onClick={() => setUpload(!isUpload)}
 						className={buttonBase}
