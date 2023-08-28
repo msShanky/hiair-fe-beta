@@ -34,7 +34,7 @@ module.exports = {
 					},
 					content: {
 						subtle: "#9ca3af", // gray-400
-						DEFAULT: "#3b82f6", // gray-500
+						DEFAULT: "#043873", // gray-500
 						emphasis: "#374151", // gray-700
 						strong: "#111827", // gray-900
 						inverted: "#ffffff", // white

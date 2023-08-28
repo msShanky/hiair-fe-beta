@@ -50,14 +50,14 @@ export const CompanyHandler: FC<CompanyHandlerProps> = (props) => {
 
 	return (
 		<div className="flex flex-col items-center justify-center gap-6">
-			<section className="mt-4">
+			<section className="flex flex-row flex-wrap w-full gap-4 mt-8">
 				{data &&
 					data?.map((companyRel) => {
 						const { companyId, company } = companyRel;
 						return (
 							<div
 								key={`company_list_item_${companyId}`}
-								className="relative flex flex-col h-56 p-4 mx-auto rounded-md w-80 ring-4 ring-primaryAlt gap-y-2"
+								className="relative flex flex-col h-64 p-4 mx-auto rounded-md w-80 ring-4 ring-primaryAlt gap-y-2"
 							>
 								<div className="flex flex-row items-start justify-between w-full gap-y-4">
 									<Text className="text-xl text-black">{company.name}</Text>

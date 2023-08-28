@@ -91,7 +91,7 @@ export const getCandidateLocationScore = async (
 
 	const locationFinalPercent = (locationScore / requestLocation.length) * 100;
 
-	return locationFinalPercent;
+	return locationFinalPercent > 100 ? 100 : locationFinalPercent;
 };
 
 export const getCandidateNoticeScore = (noticePeriod: number | null, expectedNotice: Array<string>): number => {

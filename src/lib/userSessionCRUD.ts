@@ -84,33 +84,63 @@ const createCompanyInformation = async (
  * @returns
  */
 export const storeCandidateRequest = async (postBody: UserSessionStateType, user: UserWithRelation) => {
-	const { companyInfo } = postBody;
+	const { companyInfo, companyId } = postBody;
 
-	const existingCompanyInfo = await prisma.companyInformation.findFirst({
+	let companyRefId = companyId;
+
+	console.log("The company id received for selection [1] ===> ", companyRefId);
+
+	// If the post body does not have company ID check if the name matches to get the exiting company list to avoid duplicates
+	if (!companyRefId) {
+		console.log(" ---- Finding existing company ---- ");
+		const existingCompanyInfo = await prisma.companyInformation.findFirst({
+			where: {
+				name: companyInfo.name,
+			},
+		});
+
+		if (existingCompanyInfo) {
+			companyRefId = existingCompanyInfo?.id;
+		}
+	}
+
+	const isExistingCompanyMapping = await prisma.userCompanyMapping.count({
 		where: {
-			name: companyInfo.name,
+			companyId: companyId,
 		},
 	});
 
-	if (existingCompanyInfo) {
-		const candidateRequest = await createCandidateRequest(existingCompanyInfo.id, user.id, postBody);
-		return { companyInformation: existingCompanyInfo, candidateRequest };
+	console.log("isExistingCompanyMapping ===> ", isExistingCompanyMapping);
+
+	// if (existingCompanyInfo) {
+	// const candidateRequest = await createCandidateRequest(existingCompanyInfo.id, user.id, postBody);
+	// return { companyInformation: existingCompanyInfo, candidateRequest };
+	// }
+
+	console.log("The company id received for selection [2] ===> ", companyRefId);
+	if (!companyRefId && user) {
+		console.log(" ---- Creating a new company **** ");
+		const createdCompany = await createCompanyInformation(companyInfo, user.id);
+
+		companyRefId = createdCompany.id;
 	}
 
-	if (!existingCompanyInfo && user) {
+	if (isExistingCompanyMapping <= 0 && companyRefId) {
+		await prisma.userCompanyMapping.create({
+			data: {
+				companyId: companyRefId,
+				userId: user.id,
+				createdBy: user.id,
+				updatedBy: user.id,
+				currentRole: postBody.companyInfo.currentRole,
+			},
+		});
+	}
+
+	if (companyRefId) {
 		try {
-			const createdCompany = await createCompanyInformation(companyInfo, user.id);
-			await prisma.userCompanyMapping.create({
-				data: {
-					companyId: createdCompany.id,
-					userId: user.id,
-					createdBy: user.id,
-					updatedBy: user.id,
-					currentRole: postBody.companyInfo.currentRole,
-				},
-			});
-			const candidateRequest = await createCandidateRequest(createdCompany.id, user.id, postBody);
-			return { companyInformation: createdCompany, candidateRequest };
+			const candidateRequest = await createCandidateRequest(companyRefId, user.id, postBody);
+			return { companyID: companyRefId, candidateRequest };
 		} catch (error) {
 			throw error;
 		}

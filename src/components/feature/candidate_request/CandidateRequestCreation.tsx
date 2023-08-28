@@ -8,7 +8,7 @@ import { updateCandidateRequest, updateCandidateTuning } from "@/reducer/userSes
 import { useStoreUserSessionMutation } from "@/reducer/hiairBaseApi";
 import { PreviewJD } from "./PreviewJD";
 import { CandidateTuning } from "./CandidateTuning";
-
+import { EmployeeSearch } from "@/components/common/loader";
 // Step 1 Display on boarding steps
 // Step 2 Collect company information
 // Step 3 Collect job description
@@ -30,7 +30,7 @@ export const CandidateRequestCreation = () => {
 		nextStep();
 	};
 
-	const [postUserSession, userSessionResponse] = useStoreUserSessionMutation({
+	const [postUserSession, { isLoading }] = useStoreUserSessionMutation({
 		fixedCacheKey: "user-session",
 		selectFromResult: (values) => values,
 	});
@@ -47,6 +47,14 @@ export const CandidateRequestCreation = () => {
 			}
 		} catch (error) {}
 	};
+
+	if (isLoading) {
+		return (
+			<section>
+				<EmployeeSearch />
+			</section>
+		);
+	}
 
 	return (
 		<section>
